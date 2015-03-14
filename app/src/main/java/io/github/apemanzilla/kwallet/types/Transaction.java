@@ -25,7 +25,7 @@ public class Transaction {
     public Transaction(String data, String sourceAddr) {
         try {
             DateFormat format = new SimpleDateFormat("MMM dd HH:mm", Locale.US);
-            time = format.parse(data.substring(0,12));
+            time = format.parse(data.substring(0, 12));
             // Adjust time to local timezone
             TimeZone tz = TimeZone.getDefault();
             time.setTime(time.getTime() + (tz.getOffset(new Date().getTime()) - 3600000));
@@ -34,7 +34,7 @@ public class Transaction {
             System.out.println(data);
             e.printStackTrace();
         }
-        String address = data.substring(0,10);
+        String address = data.substring(0, 10);
         data = data.substring(10).replaceFirst("\\+", "");
         amount = Long.parseLong(data);
         if (amount >= 0) {

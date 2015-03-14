@@ -19,8 +19,8 @@ public class Address {
     private Date lastSeen;
 
     public Address(String addressInfo) throws ParseException {
-        address = addressInfo.substring(0,10);
-        balance = Long.parseLong(addressInfo.substring(10,18));
+        address = addressInfo.substring(0, 10);
+        balance = Long.parseLong(addressInfo.substring(10, 18));
         DateFormat format = new SimpleDateFormat("dd MMM yyyy", Locale.US);
         lastSeen = format.parse(addressInfo.substring(18));
         TimeZone tz = TimeZone.getDefault();

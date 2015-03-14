@@ -8,7 +8,6 @@ import android.support.v4.app.DialogFragment;
 import android.text.method.PasswordTransformationMethod;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 
@@ -24,8 +23,8 @@ public class AccountCreationDialogFragment extends DialogFragment {
 
         final View v = inflater.inflate(R.layout.dialog_account_create, null);
 
-        final CheckBox showPass = (CheckBox)v.findViewById(R.id.showPasswordCheckbox);
-        final EditText password = (EditText)v.findViewById(R.id.passwordEditText);
+        final CheckBox showPass = (CheckBox) v.findViewById(R.id.showPasswordCheckbox);
+        final EditText password = (EditText) v.findViewById(R.id.passwordEditText);
         showPass.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,12 +34,12 @@ public class AccountCreationDialogFragment extends DialogFragment {
 
         password.setTransformationMethod(new PasswordTransformationMethod());
 
-        builder .setView(v)
+        builder.setView(v)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        final EditText password = (EditText)v.findViewById(R.id.passwordEditText);
-                        final EditText label = (EditText)v.findViewById(R.id.accountLabel);
+                        final EditText password = (EditText) v.findViewById(R.id.passwordEditText);
+                        final EditText label = (EditText) v.findViewById(R.id.accountLabel);
 
                         AccountManager.instance.addAccount(password.getText().toString(), label.getText().toString());
                     }

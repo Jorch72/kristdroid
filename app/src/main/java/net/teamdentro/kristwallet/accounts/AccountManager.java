@@ -5,8 +5,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class AccountManager {
@@ -17,8 +15,6 @@ public class AccountManager {
 
     private SQLiteDatabase database;
     private ArrayList<Account> accounts;
-
-    private String key = "test";
 
     private OnAccountCreatedListener accountCreationListener;
 
@@ -31,22 +27,18 @@ public class AccountManager {
     }
 
     public void setOnAccountCreatedListener(OnAccountCreatedListener eventListener) {
-        accountCreationListener=eventListener;
-    }
-
-    public void setKey(String key) {
-        this.key = key;
+        accountCreationListener = eventListener;
     }
 
     public void initialize(Context context) {
         AccountManager.instance = this;
 
-        database = context.openOrCreateDatabase(databaseName, context.MODE_PRIVATE, null);
+        database = context.openOrCreateDatabase(databaseName, Context.MODE_PRIVATE, null);
         database.execSQL("CREATE TABLE IF NOT EXISTS " + tableName + "(_id INTEGER PRIMARY KEY," +
                 "`label` VARCHAR(42) NOT NULL," +
                 "`password` VARCHAR(255) NOT NULL)");
 
-        accounts = new ArrayList<Account>();
+        accounts = new ArrayList<>();
 
         loadAccounts();
     }
@@ -64,6 +56,7 @@ public class AccountManager {
                 accounts.add(newAccount);
             } while (result.moveToNext());
         }
+        result.close();
     }
 
     public void addAccount(String password, String label) {
@@ -74,15 +67,15 @@ public class AccountManager {
         Account newAccount = new Account((int) stmt.executeInsert(), label, password);
         accounts.add(newAccount);
 
-        if(accountCreationListener != null)
+        if (accountCreationListener != null)
             accountCreationListener.onEvent();
     }
 
     public void deleteAccount(Account account) {
-        database.delete(tableName, "_id = ?", new String[] {String.valueOf(account.getID())});
+        database.delete(tableName, "_id = ?", new String[]{String.valueOf(account.getID())});
         accounts.remove(account);
 
-        if(accountCreationListener != null)
+        if (accountCreationListener != null)
             accountCreationListener.onEvent();
     }
 }
