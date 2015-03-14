@@ -1,0 +1,15 @@
+<resources>
+    <style name="Theme.KristLight" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/lb600</item>
+        <item name="colorPrimaryDark">@color/lb800</item>
+        <item name="colorAccent">@color/doA400</item>
+        <item name="windowActionBar">false</item>
+    </style>
+
+    <style name="Theme.KristDark" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/lb600</item>
+        <item name="colorPrimaryDark">@color/lb800</item>
+        <item name="colorAccent">@color/doA400</item>
+        <item name="windowActionBar">false</item>
+    </style>
+</resources>

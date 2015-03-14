@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lb200">#81D4FA</color>
+    <color name="lb600">#039BE5</color>
+    <color name="lb800">#0277BD</color>
+    <color name="doA100">#FF9E80</color>
+    <color name="doA200">#FF6E40</color>
+    <color name="doA400">#FF3D00</color>
+    <color name="half_black">#808080</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_pressed">#EEEEEE</color>
+</resources>
