@@ -1,0 +1,66 @@
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/addressCard"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    card_view:cardUseCompatPadding="true"
+    card_view:contentPadding="@dimen/card_gutter"
+    card_view:cardCornerRadius="@dimen/card_radius">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:padding="@dimen/card_gutter">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/addressHint"
+            android:id="@+id/addressHint"
+            android:singleLine="true"
+            android:textSize="24sp"
+            android:textColor="@color/accent"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:textAlignment="viewStart"
+            android:gravity="start" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/addressHint"
+            android:id="@+id/accountInfo"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="false"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentTop="false">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/placeholder"
+                android:id="@+id/address"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:textAlignment="viewStart"
+                android:gravity="start" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/balance"
+                android:id="@+id/balance"
+                android:singleLine="true"
+                android:textSize="16sp"
+                android:layout_weight="1"
+                android:textColor="@color/lb800"
+                android:textAlignment="viewStart"
+                android:gravity="start" />
+        </LinearLayout>
+
+    </RelativeLayout>
+</android.support.v7.widget.CardView>

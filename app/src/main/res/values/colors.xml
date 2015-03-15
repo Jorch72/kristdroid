@@ -2,8 +2,9 @@
 <resources>
     <color name="lb600">#039BE5</color>
     <color name="lb800">#0277BD</color>
-    <color name="doA200">#FF6E40</color>
-    <color name="doA400">#FF3D00</color>
+    <color name="doA200">#FFAB40</color>
+    <color name="doA400">#FFAB40</color>
+    <color name="accent">#FF6D00</color>
     <color name="white">#FFFFFF</color>
     <color name="textColorBlack">#212121</color>
 </resources>

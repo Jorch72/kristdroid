@@ -37,7 +37,8 @@ public class CurrentAccount extends Account {
         }
 
         try{
-            api = new KristAPI(new URL(apiLink), getPassword());
+            String updatedPassword = KristAPI.sha256Hex("KRISTWALLET" + new String(getPassword())) + "-000";
+            api = new KristAPI(new URL(apiLink), updatedPassword);
         } catch (MalformedURLException e) {
             new AlertDialog.Builder(context).setMessage(context.getString(R.string.apiError)).setNeutralButton(android.R.string.ok, null).show();
             e.printStackTrace();

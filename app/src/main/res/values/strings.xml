@@ -2,6 +2,8 @@
     <string name="app_name">Krist Wallet</string>
     <string name="krist">Krist</string>
 
+    <string name="placeholder">%1$s</string>
+
     <string name="action_settings">Settings</string>
     <string name="show">Show</string>
     <string name="drawer_open">Open</string>
@@ -19,9 +21,19 @@
 
     <string name="balance">%1$s KST</string>
     <string name="balance_hint">Balance</string>
+    <string name="addressHint">Your account</string>
+    <string name="viewTransactions">View Transactions</string>
 
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="received">Received</string>
+    <string name="sent">Sent</string>
+    <string name="mined">Mined</string>
+
+    <string name="transactionTo">%1$s KST to $1$s</string>
+    <string name="transactionFrom">%1$s KST from %1$s</string>
+
+    <string name="kristImage">kristImage</string>
+
     <string name="apiError">There was an error loading the API. Please try again later.</string>
     <string name="balanceError">Error acquiring balance</string>
+    <string name="load_more">Load more</string>
 </resources>

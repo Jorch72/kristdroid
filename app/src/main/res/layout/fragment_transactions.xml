@@ -1,9 +1,12 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="net.teamdentro.kristwallet.frags.Transactions">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="net.teamdentro.kristwallet.frags.Overview"
+    android:padding="8dp"
+    android:orientation="vertical"
+    android:id="@+id/overviewLinearLayout">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <include layout="@layout/card_overview" />
 
-</FrameLayout>
+</LinearLayout>
