@@ -2,6 +2,7 @@ package net.teamdentro.kristwallet.activities;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
@@ -39,6 +40,18 @@ public class LoginActivity extends ActionBarActivity {
         adapter = new AccountsAdapter(getApplicationContext(), AccountManager.instance.getAccounts());
 
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Account acc = adapter.getItem(position);
+
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                intent.putExtra("account", acc);
+
+                startActivity(intent);
+            }
+        });
 
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
