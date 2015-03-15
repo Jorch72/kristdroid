@@ -19,8 +19,7 @@
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/kristDrawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/kristDrawerFragmentContainer"
@@ -29,14 +28,14 @@
         </FrameLayout>
 
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/navigation_drawer"
+            android:id="@+id/kristDrawerList"
             style="@style/NavDrawer"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:choiceMode="singleChoice"
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
-            android:background="#FFF"
+            android:background="@color/white"
             />
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package net.teamdentro.kristwallet.activities;
 
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -50,6 +51,7 @@ public class LoginActivity extends ActionBarActivity {
                 intent.putExtra("account", acc);
 
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_enter, R.anim.slide_leave);
             }
         });
 

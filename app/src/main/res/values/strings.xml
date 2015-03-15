@@ -1,17 +1,27 @@
 <resources>
     <string name="app_name">Krist Wallet</string>
+    <string name="krist">Krist</string>
 
     <string name="action_settings">Settings</string>
-    <string name="account_select">Select an account</string>
-    <string name="krist">Krist</string>
-    <string name="wallet_password">Wallet Password</string>
     <string name="show">Show</string>
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="account_select">Select an account</string>
+    <string name="wallet_password">Wallet Password</string>
     <string name="label">Label</string>
     <string name="wallet_creation_hint">A new wallet will be created if you don\'t have one</string>
     <string name="v2_address_note">Note: only v2 addresses are supported!</string>
     <string name="confirm_account_delete">Delete this account?</string>
+
+    <string name="overview">Overview</string>
+    <string name="transactions">Transactions</string>
+
     <string name="balance">%1$s KST</string>
     <string name="balance_hint">Balance</string>
-    <string name="drawer_open">Open</string>
-    <string name="drawer_close">Close</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="apiError">There was an error loading the API. Please try again later.</string>
+    <string name="balanceError">Error acquiring balance</string>
 </resources>

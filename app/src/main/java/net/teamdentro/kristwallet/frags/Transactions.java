@@ -9,13 +9,13 @@ import android.view.ViewGroup;
 
 import net.teamdentro.kristwallet.R;
 
-public class Overview extends Fragment {
+public class Transactions extends Fragment {
     public static Fragment newInstance(Context context) {
-        Overview fragment = new Overview();
+        Transactions fragment = new Transactions();
         return fragment;
     }
 
-    public Overview() {}
+    public Transactions() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class Overview extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_overview, container, false);
+        return inflater.inflate(R.layout.fragment_transactions, container, false);
     }
 
 }

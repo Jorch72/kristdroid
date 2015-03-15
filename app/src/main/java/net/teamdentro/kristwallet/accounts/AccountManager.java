@@ -22,6 +22,8 @@ public class AccountManager {
         return accounts;
     }
 
+    public CurrentAccount currentAccount = null;
+
     public interface OnAccountCreatedListener {
         public void onEvent();
     }
@@ -77,5 +79,10 @@ public class AccountManager {
 
         if (accountCreationListener != null)
             accountCreationListener.onEvent();
+    }
+
+    public void loadAccount(Context context, Account account) {
+        currentAccount = new CurrentAccount(context, account.getID(), account.getLabel(), account.getPassword());
+        currentAccount.initialize();
     }
 }

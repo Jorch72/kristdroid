@@ -5,6 +5,7 @@
 
 package io.github.apemanzilla.kwallet;
 
+import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.IOException;
@@ -122,18 +123,18 @@ public class KristAPI {
         String[] protein = {"", "", "", "", "", "", "", "", ""};
         int link;
         String v2 = "k";
-        String stick = DigestUtils.sha256Hex(DigestUtils.sha256Hex(key));
+        String stick = sha256Hex(sha256Hex(key));
         for (int i = 0; i <= 9; i++) {
             if (i < 9) {
                 protein[i] = stick.substring(0, 2);
-                stick = DigestUtils.sha256Hex(DigestUtils.sha256Hex(stick));
+                stick = sha256Hex(sha256Hex(stick));
             }
         }
         int i = 0;
         while (i <= 8) {
             link = Integer.parseInt(stick.substring(2 * i, 2 + (2 * i)), 16) % 9;
             if (protein[link].equals("")) {
-                stick = DigestUtils.sha256Hex(stick);
+                stick = sha256Hex(stick);
             } else {
                 v2 = v2 + numtochar(Integer.parseInt(protein[link], 16));
                 protein[link] = "";
@@ -141,6 +142,10 @@ public class KristAPI {
             }
         }
         return v2;
+    }
+
+    public static String sha256Hex(String in) {
+        return new String(Hex.encodeHex(DigestUtils.sha256(in)));
     }
 
     public String getAddress() {
