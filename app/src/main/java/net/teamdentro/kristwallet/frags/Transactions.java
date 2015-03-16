@@ -11,8 +11,7 @@ import net.teamdentro.kristwallet.R;
 
 public class Transactions extends Fragment {
     public static Fragment newInstance(Context context) {
-        Transactions fragment = new Transactions();
-        return fragment;
+        return new Transactions();
     }
 
     public Transactions() {

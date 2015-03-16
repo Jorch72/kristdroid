@@ -15,15 +15,13 @@ import net.teamdentro.kristwallet.accounts.CurrentAccount;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 
 import io.github.apemanzilla.kwallet.types.Transaction;
 
 public class Overview extends Fragment {
     public static Fragment newInstance(Context context) {
-        Overview fragment = new Overview();
-        return fragment;
+        return new Overview();
     }
 
     public Overview() {

@@ -35,7 +35,7 @@ public class MainActivity extends ActionBarActivity {
     private TreeMap<String, String> fragments;
 
     private void prepareFragments() {
-        fragments = new TreeMap<String, String>();
+        fragments = new TreeMap<>();
 
         fragments.put(getString(R.string.overview), Overview.class.getName());
         fragments.put(getString(R.string.transactions), Transactions.class.getName());
@@ -107,10 +107,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -140,7 +137,7 @@ public class MainActivity extends ActionBarActivity {
         overridePendingTransition(R.anim.slide_reverse_enter, R.anim.slide_reverse_leave);
     }
 
-    private class LoadAPITask extends AsyncTask <Account, Void, Void> {
+    private class LoadAPITask extends AsyncTask<Account, Void, Void> {
         protected Void doInBackground(Account... accounts) {
             System.out.println("Loading API");
 
@@ -164,7 +161,7 @@ public class MainActivity extends ActionBarActivity {
     private void addCards() {
         System.out.println("Adding cards");
 
-        Overview overviewFragment = (Overview)getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
+        Overview overviewFragment = (Overview) getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
         if (overviewFragment != null)
             overviewFragment.addCards();
     }

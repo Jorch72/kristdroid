@@ -1,11 +1,7 @@
 package net.teamdentro.kristwallet.accounts;
 
-import android.app.AlertDialog;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
-import net.teamdentro.kristwallet.R;
 import net.teamdentro.kristwallet.util.Constants;
 
 import java.io.IOException;
@@ -29,14 +25,12 @@ public class CurrentAccount extends Account {
         String apiLink = null;
         try {
             apiLink = HTTP.readURL(new URL(Constants.syncNode));
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         try {
-            String updatedPassword = KristAPI.sha256Hex("KRISTWALLET" + new String(getPassword())) + "-000";
+            String updatedPassword = KristAPI.sha256Hex("KRISTWALLET" + getPassword()) + "-000";
             api = new KristAPI(new URL(apiLink), updatedPassword);
         } catch (MalformedURLException e) {
             e.printStackTrace();
