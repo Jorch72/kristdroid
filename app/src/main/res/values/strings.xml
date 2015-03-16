@@ -28,8 +28,8 @@
     <string name="sent">Sent</string>
     <string name="mined">Mined</string>
 
-    <string name="transactionTo">%1$s KST to $1$s</string>
-    <string name="transactionFrom">%1$s KST from %1$s</string>
+    <string name="transactionTo">%1$s KST to %2$s</string>
+    <string name="transactionFrom">%1$s KST from %2$s</string>
 
     <string name="kristImage">kristImage</string>
 

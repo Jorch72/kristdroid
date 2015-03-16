@@ -36,30 +36,31 @@ public class Overview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        TextView address = (TextView) view.findViewById(R.id.address);
-        address.setText(getString(R.string.loading));
-
-        TextView balance = (TextView) view.findViewById(R.id.balance);
-        balance.setText(getString(R.string.loading));
+        if (AccountManager.instance.currentAccount != null)
+            addCards(view);
 
         return view;
     }
 
-    public void addCards() {
+    public void addCards(View view) {
         CurrentAccount account = AccountManager.instance.currentAccount;
 
-        TextView address = (TextView) getView().findViewById(R.id.address);
+        TextView address = (TextView) view.findViewById(R.id.address);
         address.setText(getString(R.string.placeholder, account.getAddress()));
 
-        TextView balance = (TextView) getView().findViewById(R.id.balance);
+        TextView balance = (TextView) view.findViewById(R.id.balance);
         balance.setText(getString(R.string.balance, account.getBalance()));
 
         Transaction[] transactions = account.getTransactions();
         transactions = ArrayUtils.subarray(transactions, 0, 15);
 
         for (Transaction transaction : transactions) {
-            addTransaction(account, transaction, getView(), (LayoutInflater) getView().getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+            addTransaction(account, transaction, view, (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
         }
+    }
+
+    public void addCards() {
+        addCards(getView());
     }
 
     public void addTransaction(CurrentAccount account, Transaction transaction, View view, LayoutInflater inflater) {
@@ -79,7 +80,7 @@ public class Overview extends Fragment {
             View newView = inflater.inflate(R.layout.card_sent, layout, false);
 
             TextView amount = (TextView) newView.findViewById(R.id.amount);
-            amount.setText(getString(R.string.balance, String.valueOf(Math.abs(transaction.getAmount())), transaction.getToAddr()));
+            amount.setText(getString(R.string.transactionTo, String.valueOf(Math.abs(transaction.getAmount())), transaction.getToAddr()));
 
             TextView date = (TextView) newView.findViewById(R.id.date);
             date.setText(getString(R.string.placeholder, new SimpleDateFormat("dd MMM HH:mm").format(transaction.getTime())));
@@ -89,7 +90,7 @@ public class Overview extends Fragment {
             View newView = inflater.inflate(R.layout.card_received, layout, false);
 
             TextView amount = (TextView) newView.findViewById(R.id.amount);
-            amount.setText(getString(R.string.balance, String.valueOf(transaction.getAmount()), transaction.getFromAddr()));
+            amount.setText(getString(R.string.transactionFrom, String.valueOf(transaction.getAmount()), transaction.getFromAddr()));
 
             TextView date = (TextView) newView.findViewById(R.id.date);
             date.setText(getString(R.string.placeholder, new SimpleDateFormat("dd MMM HH:mm").format(transaction.getTime())));

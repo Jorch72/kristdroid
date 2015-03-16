@@ -139,8 +139,6 @@ public class MainActivity extends ActionBarActivity {
 
     private class LoadAPITask extends AsyncTask<Account, Void, Void> {
         protected Void doInBackground(Account... accounts) {
-            System.out.println("Loading API");
-
             Account account = accounts[0];
 
             CurrentAccount currentAccount = new CurrentAccount(account.getID(), account.getLabel(), account.getPassword());
@@ -153,14 +151,11 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Void result) {
-            System.out.println("API loaded");
             addCards();
         }
     }
 
     private void addCards() {
-        System.out.println("Adding cards");
-
         Overview overviewFragment = (Overview) getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
         if (overviewFragment != null)
             overviewFragment.addCards();

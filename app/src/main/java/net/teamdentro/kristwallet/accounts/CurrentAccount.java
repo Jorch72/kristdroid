@@ -39,7 +39,7 @@ public class CurrentAccount extends Account {
         refreshNonAsynchronously();
     }
 
-    private void refresh() {
+    public void refresh() {
         new RefreshAccountTask().execute();
     }
 
