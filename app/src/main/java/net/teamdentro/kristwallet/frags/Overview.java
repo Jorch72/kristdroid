@@ -3,7 +3,6 @@ package net.teamdentro.kristwallet.frags;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import net.teamdentro.kristwallet.accounts.AccountManager;
 import net.teamdentro.kristwallet.accounts.CurrentAccount;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.apache.http.impl.cookie.DateUtils;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -28,7 +26,8 @@ public class Overview extends Fragment {
         return fragment;
     }
 
-    public Overview() {}
+    public Overview() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -36,33 +35,36 @@ public class Overview extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
-        CurrentAccount account = AccountManager.instance.currentAccount;
-
         TextView address = (TextView) view.findViewById(R.id.address);
-        address.setText(getString(R.string.placeholder, account.getAddress()));
+        address.setText(getString(R.string.loading));
 
         TextView balance = (TextView) view.findViewById(R.id.balance);
-        balance.setText(getString(R.string.balance, account.getBalance()));
-
-        try {
-            Transaction[] transactions = account.getAPI().getTransactions();
-            transactions = ArrayUtils.subarray(transactions, 0, 15);
-
-            for (Transaction transaction : transactions) {
-                addTransaction(account, transaction, view, container, inflater);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        balance.setText(getString(R.string.loading));
 
         return view;
     }
 
-    public void addTransaction(CurrentAccount account, Transaction transaction, View view, ViewGroup container, LayoutInflater inflater) {
+    public void addCards() {
+        CurrentAccount account = AccountManager.instance.currentAccount;
+
+        TextView address = (TextView) getView().findViewById(R.id.address);
+        address.setText(getString(R.string.placeholder, account.getAddress()));
+
+        TextView balance = (TextView) getView().findViewById(R.id.balance);
+        balance.setText(getString(R.string.balance, account.getBalance()));
+
+        Transaction[] transactions = account.getTransactions();
+        transactions = ArrayUtils.subarray(transactions, 0, 15);
+
+        for (Transaction transaction : transactions) {
+            addTransaction(account, transaction, getView(), (LayoutInflater) getView().getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+        }
+    }
+
+    public void addTransaction(CurrentAccount account, Transaction transaction, View view, LayoutInflater inflater) {
         LinearLayout layout = (LinearLayout) view.findViewById(R.id.overviewLinearLayout);
 
         if (transaction.getAddr().equalsIgnoreCase("N/A(Mined)")) {

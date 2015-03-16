@@ -7,4 +7,5 @@
     <color name="accent">#FF6D00</color>
     <color name="white">#FFFFFF</color>
     <color name="textColorBlack">#212121</color>
+    <color name="divider">#E0E0E0</color>
 </resources>

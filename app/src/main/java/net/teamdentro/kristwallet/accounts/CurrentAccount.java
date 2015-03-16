@@ -2,6 +2,7 @@ package net.teamdentro.kristwallet.accounts;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import net.teamdentro.kristwallet.R;
@@ -12,16 +13,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import io.github.apemanzilla.kwallet.KristAPI;
+import io.github.apemanzilla.kwallet.types.Transaction;
 import io.github.apemanzilla.kwallet.util.HTTP;
 
 public class CurrentAccount extends Account {
-    private Context context;
-
     private KristAPI api;
+    private long balance;
+    private Transaction[] transactions;
 
-    public CurrentAccount(Context context, int id, String label, String password) {
+    public CurrentAccount(int id, String label, String password) {
         super(id, label, password);
-        this.context = context;
     }
 
     public void initialize() {
@@ -29,30 +30,47 @@ public class CurrentAccount extends Account {
         try {
             apiLink = HTTP.readURL(new URL(Constants.syncNode));
         } catch (MalformedURLException e) {
-            new AlertDialog.Builder(context).setMessage(context.getString(R.string.apiError)).setNeutralButton(android.R.string.ok, null).show();
             e.printStackTrace();
         } catch (IOException e) {
-            new AlertDialog.Builder(context).setMessage(context.getString(R.string.apiError)).setNeutralButton(android.R.string.ok, null).show();
             e.printStackTrace();
         }
 
-        try{
+        try {
             String updatedPassword = KristAPI.sha256Hex("KRISTWALLET" + new String(getPassword())) + "-000";
             api = new KristAPI(new URL(apiLink), updatedPassword);
         } catch (MalformedURLException e) {
-            new AlertDialog.Builder(context).setMessage(context.getString(R.string.apiError)).setNeutralButton(android.R.string.ok, null).show();
+            e.printStackTrace();
+        }
+
+        refreshNonAsynchronously();
+    }
+
+    private void refresh() {
+        new RefreshAccountTask().execute();
+    }
+
+    private void refreshNonAsynchronously() {
+        try {
+            balance = api.getBalance();
+            transactions = api.getTransactions();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public long getBalance() {
-        try {
-            return api.getBalance();
-        } catch (IOException e) {
-            Toast.makeText(context, R.string.balanceError, Toast.LENGTH_SHORT);
-            e.printStackTrace();
+    private class RefreshAccountTask extends AsyncTask<Void, Void, Void> {
+        protected Void doInBackground(Void... _) {
+            refreshNonAsynchronously();
+            return null;
         }
-        return 0;
+    }
+
+    public long getBalance() {
+        return balance;
+    }
+
+    public Transaction[] getTransactions() {
+        return transactions;
     }
 
     public String getAddress() {

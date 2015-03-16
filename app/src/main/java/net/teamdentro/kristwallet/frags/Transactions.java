@@ -15,7 +15,8 @@ public class Transactions extends Fragment {
         return fragment;
     }
 
-    public Transactions() {}
+    public Transactions() {
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

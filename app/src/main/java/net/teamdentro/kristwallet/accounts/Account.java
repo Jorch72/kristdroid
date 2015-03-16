@@ -2,7 +2,7 @@ package net.teamdentro.kristwallet.accounts;
 
 import java.io.Serializable;
 
-public class Account implements Serializable{
+public class Account implements Serializable {
     private static final long serialVersionUID = 0L;
 
     private String label;

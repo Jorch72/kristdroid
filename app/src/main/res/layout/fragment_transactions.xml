@@ -7,6 +7,4 @@
     android:orientation="vertical"
     android:id="@+id/overviewLinearLayout">
 
-    <include layout="@layout/card_overview" />
-
 </LinearLayout>

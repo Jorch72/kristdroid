@@ -80,9 +80,4 @@ public class AccountManager {
         if (accountCreationListener != null)
             accountCreationListener.onEvent();
     }
-
-    public void loadAccount(Context context, Account account) {
-        currentAccount = new CurrentAccount(context, account.getID(), account.getLabel(), account.getPassword());
-        currentAccount.initialize();
-    }
 }

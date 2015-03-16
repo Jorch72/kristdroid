@@ -2,8 +2,8 @@ package net.teamdentro.kristwallet.activities;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +22,7 @@ import android.widget.ListView;
 import net.teamdentro.kristwallet.R;
 import net.teamdentro.kristwallet.accounts.Account;
 import net.teamdentro.kristwallet.accounts.AccountManager;
+import net.teamdentro.kristwallet.accounts.CurrentAccount;
 import net.teamdentro.kristwallet.frags.Overview;
 import net.teamdentro.kristwallet.frags.Transactions;
 
@@ -52,14 +53,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void loadAPI() {
-        // don't panic; the automatic refreshing is asynchronous
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
         Intent intent = getIntent();
-        Account targetAccount = (Account)intent.getSerializableExtra("account");
+        Account targetAccount = (Account) intent.getSerializableExtra("account");
 
-        AccountManager.instance.loadAccount(this, targetAccount);
+        new LoadAPITask().execute(targetAccount);
     }
 
     private void createNavigationDrawer() {
@@ -82,7 +79,7 @@ public class MainActivity extends ActionBarActivity {
                 transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 transaction.replace(R.id.kristDrawerFragmentContainer,
                         Fragment.instantiate(MainActivity.this,
-                                fragments.values().toArray()[position].toString()));
+                                fragments.values().toArray()[position].toString()), fragments.values().toArray()[0].toString());
                 transaction.commit();
 
                 drawerList.setItemChecked(position, true);
@@ -97,14 +94,14 @@ public class MainActivity extends ActionBarActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.kristDrawerFragmentContainer,
                 Fragment.instantiate(MainActivity.this,
-                        fragments.values().toArray()[0].toString()));
+                        fragments.values().toArray()[0].toString()), fragments.values().toArray()[0].toString());
         transaction.commit();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = new MenuInflater(this);
-        inflater.inflate(R.menu.menu_main,menu);
+        inflater.inflate(R.menu.menu_main, menu);
         return true;
     }
 
@@ -130,7 +127,7 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(Gravity.START|Gravity.LEFT)){
+        if (drawerLayout.isDrawerOpen(Gravity.START | Gravity.LEFT)) {
             drawerLayout.closeDrawers();
             return;
         }
@@ -141,5 +138,34 @@ public class MainActivity extends ActionBarActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_reverse_enter, R.anim.slide_reverse_leave);
+    }
+
+    private class LoadAPITask extends AsyncTask <Account, Void, Void> {
+        protected Void doInBackground(Account... accounts) {
+            System.out.println("Loading API");
+
+            Account account = accounts[0];
+
+            CurrentAccount currentAccount = new CurrentAccount(account.getID(), account.getLabel(), account.getPassword());
+            currentAccount.initialize();
+
+            AccountManager.instance.currentAccount = currentAccount;
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            System.out.println("API loaded");
+            addCards();
+        }
+    }
+
+    private void addCards() {
+        System.out.println("Adding cards");
+
+        Overview overviewFragment = (Overview)getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
+        if (overviewFragment != null)
+            overviewFragment.addCards();
     }
 }
