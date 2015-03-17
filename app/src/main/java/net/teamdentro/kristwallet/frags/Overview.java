@@ -65,7 +65,6 @@ public class Overview extends Fragment {
 
     public void addTransaction(CurrentAccount account, Transaction transaction, View view, LayoutInflater inflater) {
         LinearLayout layout = (LinearLayout) view.findViewById(R.id.overviewLinearLayout);
-        layout.removeAllViewsInLayout();
 
         if (transaction.getAddr().equalsIgnoreCase("N/A(Mined)")) {
             View newView = inflater.inflate(R.layout.card_mined, layout, false);
