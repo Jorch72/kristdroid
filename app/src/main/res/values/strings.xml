@@ -37,4 +37,6 @@
     <string name="balanceError">Error acquiring balance</string>
     <string name="load_more">Load more</string>
     <string name="loading">Loading...</string>
+    <string name="try_again_later">Try again later!</string>
+    <string name="loading_error_text">It seems there was a problem loading your wallet. Perhaps your internet connection is poor or disconnected, or the Krist servers are down.</string>
 </resources>

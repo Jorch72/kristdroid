@@ -36,17 +36,22 @@ public class Transactions extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_transactions, container, false);
 
+        if (AccountManager.instance.currentAccount != null)
+            addList( view);
+
+        return view;
+    }
+
+    private void addList(View view) {
         CurrentAccount account = AccountManager.instance.currentAccount;
         account.refresh();
 
         ListView listView = (ListView) view.findViewById(R.id.transactionsListView);
 
         final TransactionsAdapter adapter;
-        adapter = new TransactionsAdapter(view.getContext(), new ArrayList<Transaction>(Arrays.asList(account.getTransactions())));
+        adapter = new TransactionsAdapter(view.getContext(), new ArrayList<>(Arrays.asList(account.getTransactions())));
 
         listView.setAdapter(adapter);
-
-        return view;
     }
 
 }

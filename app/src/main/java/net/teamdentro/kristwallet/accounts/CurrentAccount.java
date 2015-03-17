@@ -21,12 +21,13 @@ public class CurrentAccount extends Account {
         super(id, label, password);
     }
 
-    public void initialize() {
+    public boolean initialize() {
         String apiLink = null;
         try {
             apiLink = HTTP.readURL(new URL(Constants.syncNode));
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
 
         try {
@@ -34,22 +35,25 @@ public class CurrentAccount extends Account {
             api = new KristAPI(new URL(apiLink), updatedPassword);
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            return false;
         }
 
-        refreshNonAsynchronously();
+        return refreshNonAsynchronously();
     }
 
     public void refresh() {
         new RefreshAccountTask().execute();
     }
 
-    private void refreshNonAsynchronously() {
+    private boolean refreshNonAsynchronously() {
         try {
             balance = api.getBalance();
             transactions = api.getTransactions();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
+            return false;
         }
+        return true;
     }
 
     private class RefreshAccountTask extends AsyncTask<Void, Void, Void> {

@@ -34,6 +34,8 @@ public class MainActivity extends ActionBarActivity {
 
     private TreeMap<String, String> fragments;
 
+    private LoadAPITask loadingTask;
+
     private void prepareFragments() {
         fragments = new TreeMap<>();
 
@@ -56,7 +58,8 @@ public class MainActivity extends ActionBarActivity {
         Intent intent = getIntent();
         Account targetAccount = (Account) intent.getSerializableExtra("account");
 
-        new LoadAPITask().execute(targetAccount);
+        loadingTask = new LoadAPITask();
+        loadingTask.execute(targetAccount);
     }
 
     private void createNavigationDrawer() {
@@ -134,25 +137,40 @@ public class MainActivity extends ActionBarActivity {
     @Override
     public void finish() {
         super.finish();
+
+        if(loadingTask != null) {
+            loadingTask.cancel(true);
+        }
+
         overridePendingTransition(R.anim.slide_reverse_enter, R.anim.slide_reverse_leave);
+
+        AccountManager.instance.currentAccount = null;
     }
 
-    private class LoadAPITask extends AsyncTask<Account, Void, Void> {
-        protected Void doInBackground(Account... accounts) {
+    private class LoadAPITask extends AsyncTask<Account, Void, Boolean> {
+        protected Boolean doInBackground(Account... accounts) {
             Account account = accounts[0];
 
             CurrentAccount currentAccount = new CurrentAccount(account.getID(), account.getLabel(), account.getPassword());
-            currentAccount.initialize();
+            if(!currentAccount.initialize()) return Boolean.FALSE;
 
             AccountManager.instance.currentAccount = currentAccount;
-
-            return null;
+            return Boolean.TRUE;
         }
 
         @Override
-        protected void onPostExecute(Void result) {
-            addCards();
+        protected void onPostExecute(Boolean result) {
+            if (result == Boolean.TRUE)
+                addCards();
+            else
+                loadingError();
         }
+    }
+
+    private void loadingError() {
+        Overview overviewFragment = (Overview) getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
+        if (overviewFragment != null)
+            overviewFragment.loadingError();
     }
 
     private void addCards() {
