@@ -7,8 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.RelativeLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.teamdentro.kristwallet.R;
@@ -26,16 +26,14 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     private int lastPosition = -1;
     private int viewResource;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView image;
         TextView title;
         TextView amount;
         TextView date;
         RelativeLayout container;
 
-        public ViewHolder(View view)
-        {
+        public ViewHolder(View view) {
             super(view);
             container = (RelativeLayout) view.findViewById(R.id.transactionLayout);
             image = (ImageView) view.findViewById(R.id.image);
@@ -52,15 +50,13 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
     }
 
     @Override
-    public TransactionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
+    public TransactionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(viewResource, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position)
-    {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         CurrentAccount account = AccountManager.instance.currentAccount;
         Transaction transaction = items.get(position);
 
@@ -88,10 +84,8 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         return items.size();
     }
 
-    private void setAnimation(View viewToAnimate, int position)
-    {
-        if (position > lastPosition)
-        {
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;

@@ -138,7 +138,7 @@ public class MainActivity extends ActionBarActivity {
     public void finish() {
         super.finish();
 
-        if(loadingTask != null) {
+        if (loadingTask != null) {
             loadingTask.cancel(true);
         }
 
@@ -152,7 +152,7 @@ public class MainActivity extends ActionBarActivity {
             Account account = accounts[0];
 
             CurrentAccount currentAccount = new CurrentAccount(account.getID(), account.getLabel(), account.getPassword());
-            if(!currentAccount.initialize()) return Boolean.FALSE;
+            if (!currentAccount.initialize()) return Boolean.FALSE;
 
             AccountManager.instance.currentAccount = currentAccount;
             return Boolean.TRUE;
@@ -168,14 +168,24 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void loadingError() {
-        Overview overviewFragment = (Overview) getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
-        if (overviewFragment != null)
-            overviewFragment.loadingError();
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
+        if (fragment instanceof Overview)
+            ((Overview) fragment).loadingError();
+    }
+
+    public Fragment getActiveFragment() {
+        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
+            return null;
+        }
+        String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
+        return getSupportFragmentManager().findFragmentByTag(tag);
     }
 
     private void addCards() {
-        Overview overviewFragment = (Overview) getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
-        if (overviewFragment != null)
-            overviewFragment.addCards();
+        Fragment fragment = getActiveFragment();
+        if (fragment instanceof Overview)
+            ((Overview) fragment).addCards();
+        else if (fragment instanceof Transactions)
+            ((Transactions) fragment).addList();
     }
 }

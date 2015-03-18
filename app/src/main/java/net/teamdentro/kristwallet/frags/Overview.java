@@ -18,7 +18,6 @@ import net.teamdentro.kristwallet.adapters.TransactionsAdapter;
 
 import org.apache.commons.lang3.ArrayUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 

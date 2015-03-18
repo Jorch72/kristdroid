@@ -3,6 +3,7 @@ package net.teamdentro.kristwallet.accounts;
 import android.os.AsyncTask;
 
 import net.teamdentro.kristwallet.util.Constants;
+import net.teamdentro.kristwallet.util.FragmentCallback;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -41,8 +42,8 @@ public class CurrentAccount extends Account {
         return refreshNonAsynchronously();
     }
 
-    public void refresh() {
-        new RefreshAccountTask().execute();
+    public void refresh(FragmentCallback callback) {
+        new RefreshAccountTask(callback).execute();
     }
 
     private boolean refreshNonAsynchronously() {
@@ -57,9 +58,22 @@ public class CurrentAccount extends Account {
     }
 
     private class RefreshAccountTask extends AsyncTask<Void, Void, Void> {
+        private FragmentCallback callback;
+
+        public RefreshAccountTask(FragmentCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
         protected Void doInBackground(Void... _) {
             refreshNonAsynchronously();
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            if (callback != null)
+                callback.onTaskDone();
         }
     }
 
