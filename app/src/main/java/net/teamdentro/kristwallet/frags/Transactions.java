@@ -3,6 +3,7 @@ package net.teamdentro.kristwallet.frags;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,6 +50,20 @@ public class Transactions extends Fragment {
                     addList(view);
                 }
             });
+
+        final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.transactionsRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                AccountManager.instance.currentAccount.refresh(new FragmentCallback() {
+                    @Override
+                    public void onTaskDone() {
+                        addList();
+                        swipeRefreshLayout.setRefreshing(false);
+                    }
+                });
+            }
+        });
 
         return view;
     }

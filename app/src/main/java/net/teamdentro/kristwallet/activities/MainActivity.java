@@ -82,7 +82,7 @@ public class MainActivity extends ActionBarActivity {
                 transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 transaction.replace(R.id.kristDrawerFragmentContainer,
                         Fragment.instantiate(MainActivity.this,
-                                fragments.values().toArray()[position].toString()), fragments.values().toArray()[0].toString());
+                                fragments.values().toArray()[position].toString()), fragments.values().toArray()[position].toString());
                 transaction.commit();
 
                 drawerList.setItemChecked(position, true);
@@ -160,7 +160,7 @@ public class MainActivity extends ActionBarActivity {
 
         @Override
         protected void onPostExecute(Boolean result) {
-            if (result == Boolean.TRUE)
+            if (result == true)
                 addCards();
             else
                 loadingError();
@@ -168,24 +168,17 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void loadingError() {
-        Fragment fragment = getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
-        if (fragment instanceof Overview)
-            ((Overview) fragment).loadingError();
-    }
-
-    public Fragment getActiveFragment() {
-        if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            return null;
-        }
-        String tag = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
-        return getSupportFragmentManager().findFragmentByTag(tag);
+        Overview overviewFragment = (Overview) getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
+        if (overviewFragment != null)
+            overviewFragment.loadingError();
     }
 
     private void addCards() {
-        Fragment fragment = getActiveFragment();
-        if (fragment instanceof Overview)
-            ((Overview) fragment).addCards();
-        else if (fragment instanceof Transactions)
-            ((Transactions) fragment).addList();
+        Overview overviewFragment = (Overview) getSupportFragmentManager().findFragmentByTag(Overview.class.getName());
+        Transactions transactionsFragment = (Transactions) getSupportFragmentManager().findFragmentByTag(Transactions.class.getName());
+        if (overviewFragment != null)
+            overviewFragment.addCards();
+        if (transactionsFragment != null)
+            transactionsFragment.addList();
     }
 }
