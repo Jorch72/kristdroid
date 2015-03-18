@@ -1,18 +1,21 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/scrollView" >
+    tools:context="net.teamdentro.kristwallet.frags.Overview"
+    android:orientation="vertical"
+    android:id="@+id/overviewLinearLayout">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:context="net.teamdentro.kristwallet.frags.Overview"
-        android:padding="8dp"
-        android:orientation="vertical"
-        android:id="@+id/overviewLinearLayout">
+    <include layout="@layout/card_overview"
+        android:layout_marginTop="@dimen/card_gutter"
+        android:layout_marginLeft="@dimen/card_gutter"
+        android:layout_marginRight="@dimen/card_gutter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <include layout="@layout/card_overview" />
-
-    </LinearLayout>
-</ScrollView>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/overviewListView"
+        android:scrollbars="vertical" />
+</LinearLayout>

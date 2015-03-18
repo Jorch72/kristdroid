@@ -1,15 +1,17 @@
 package net.teamdentro.kristwallet.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.RelativeLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.teamdentro.kristwallet.R;
-import net.teamdentro.kristwallet.accounts.Account;
 import net.teamdentro.kristwallet.accounts.AccountManager;
 import net.teamdentro.kristwallet.accounts.CurrentAccount;
 
@@ -18,40 +20,81 @@ import java.util.ArrayList;
 
 import io.github.apemanzilla.kwallet.types.Transaction;
 
-public class TransactionsAdapter extends ArrayAdapter<Transaction> {
-    public TransactionsAdapter(Context context, ArrayList<Transaction> transactions) {
-        super(context, 0, transactions);
+public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapter.ViewHolder> {
+    private Context context;
+    private ArrayList<Transaction> items;
+    private int lastPosition = -1;
+    private int viewResource;
+
+    public static class ViewHolder extends RecyclerView.ViewHolder
+    {
+        ImageView image;
+        TextView title;
+        TextView amount;
+        TextView date;
+        RelativeLayout container;
+
+        public ViewHolder(View view)
+        {
+            super(view);
+            container = (RelativeLayout) view.findViewById(R.id.transactionLayout);
+            image = (ImageView) view.findViewById(R.id.image);
+            title = (TextView) view.findViewById(R.id.title);
+            amount = (TextView) view.findViewById(R.id.amount);
+            date = (TextView) view.findViewById(R.id.date);
+        }
+    }
+
+    public TransactionsAdapter(Context context, ArrayList<Transaction> transactions, int viewResource) {
+        this.context = context;
+        this.items = transactions;
+        this.viewResource = viewResource;
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        CurrentAccount account = AccountManager.instance.currentAccount;
-        Transaction transaction = getItem(position);
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.transaction_list_item, parent, false);
-        }
+    public TransactionsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
+    {
+        View v = LayoutInflater.from(parent.getContext()).inflate(viewResource, parent, false);
+        return new ViewHolder(v);
+    }
 
-        ImageView image = (ImageView) convertView.findViewById(R.id.image);
-        TextView title = (TextView) convertView.findViewById(R.id.title);
-        TextView amount = (TextView) convertView.findViewById(R.id.amount);
-        TextView date = (TextView) convertView.findViewById(R.id.date);
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position)
+    {
+        CurrentAccount account = AccountManager.instance.currentAccount;
+        Transaction transaction = items.get(position);
 
         if (transaction.getAddr().equalsIgnoreCase("N/A(Mined)")) {
-            image.setImageResource(R.mipmap.krist_mined);
-            title.setText(getContext().getString(R.string.mined));
-            amount.setText(getContext().getString(R.string.balance, String.valueOf(transaction.getAmount())));
+            holder.image.setImageResource(R.mipmap.krist_mined);
+            holder.title.setText(context.getString(R.string.mined));
+            holder.amount.setText(context.getString(R.string.balance, String.valueOf(transaction.getAmount())));
         } else if (transaction.getFromAddr().equals(account.getAddress())) {
-            image.setImageResource(R.mipmap.krist_red);
-            title.setText(getContext().getString(R.string.sent));
-            amount.setText(getContext().getString(R.string.transactionTo, String.valueOf(Math.abs(transaction.getAmount())), transaction.getToAddr()));
+            holder.image.setImageResource(R.mipmap.krist_red);
+            holder.title.setText(context.getString(R.string.sent));
+            holder.amount.setText(context.getString(R.string.transactionTo, String.valueOf(Math.abs(transaction.getAmount())), transaction.getToAddr()));
         } else if (transaction.getToAddr().equals(account.getAddress())) {
-            image.setImageResource(R.mipmap.krist_green);
-            title.setText(getContext().getString(R.string.received));
-            amount.setText(getContext().getString(R.string.transactionFrom, String.valueOf(transaction.getAmount()), transaction.getFromAddr()));
+            holder.image.setImageResource(R.mipmap.krist_green);
+            holder.title.setText(context.getString(R.string.received));
+            holder.amount.setText(context.getString(R.string.transactionFrom, String.valueOf(transaction.getAmount()), transaction.getFromAddr()));
         }
 
-        date.setText(getContext().getString(R.string.placeholder, new SimpleDateFormat("dd MMM HH:mm").format(transaction.getTime())));
+        holder.date.setText(context.getString(R.string.placeholder, new SimpleDateFormat("dd MMM HH:mm").format(transaction.getTime())));
 
-        return convertView;
+        setAnimation(holder.container, position);
+    }
+
+    @Override
+    public int getItemCount() {
+        return items.size();
+    }
+
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 }

@@ -3,6 +3,8 @@ package net.teamdentro.kristwallet.frags;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +14,13 @@ import android.widget.TextView;
 import net.teamdentro.kristwallet.R;
 import net.teamdentro.kristwallet.accounts.AccountManager;
 import net.teamdentro.kristwallet.accounts.CurrentAccount;
+import net.teamdentro.kristwallet.adapters.TransactionsAdapter;
 
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import io.github.apemanzilla.kwallet.types.Transaction;
 
@@ -36,6 +41,12 @@ public class Overview extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_overview, container, false);
 
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.overviewListView);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
+
         if (AccountManager.instance.currentAccount != null)
             addCards(view);
 
@@ -44,6 +55,7 @@ public class Overview extends Fragment {
 
     public void addCards(View view) {
         CurrentAccount account = AccountManager.instance.currentAccount;
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.overviewListView);
 
         TextView address = (TextView) view.findViewById(R.id.address);
         address.setText(getString(R.string.placeholder, account.getAddress()));
@@ -54,49 +66,14 @@ public class Overview extends Fragment {
         Transaction[] transactions = account.getTransactions();
         transactions = ArrayUtils.subarray(transactions, 0, 15);
 
-        for (Transaction transaction : transactions) {
-            addTransaction(account, transaction, view, (LayoutInflater) view.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-        }
+        final TransactionsAdapter adapter;
+        adapter = new TransactionsAdapter(view.getContext(), new ArrayList<>(Arrays.asList(transactions)), R.layout.transaction_card_item);
+
+        recyclerView.setAdapter(adapter);
     }
 
     public void addCards() {
         addCards(getView());
-    }
-
-    public void addTransaction(CurrentAccount account, Transaction transaction, View view, LayoutInflater inflater) {
-        LinearLayout layout = (LinearLayout) view.findViewById(R.id.overviewLinearLayout);
-
-        if (transaction.getAddr().equalsIgnoreCase("N/A(Mined)")) {
-            View newView = inflater.inflate(R.layout.card_mined, layout, false);
-
-            TextView amount = (TextView) newView.findViewById(R.id.amount);
-            amount.setText(getString(R.string.balance, String.valueOf(transaction.getAmount())));
-
-            TextView date = (TextView) newView.findViewById(R.id.date);
-            date.setText(getString(R.string.placeholder, new SimpleDateFormat("dd MMM HH:mm").format(transaction.getTime())));
-
-            layout.addView(newView);
-        } else if (transaction.getFromAddr().equals(account.getAddress())) {
-            View newView = inflater.inflate(R.layout.card_sent, layout, false);
-
-            TextView amount = (TextView) newView.findViewById(R.id.amount);
-            amount.setText(getString(R.string.transactionTo, String.valueOf(Math.abs(transaction.getAmount())), transaction.getToAddr()));
-
-            TextView date = (TextView) newView.findViewById(R.id.date);
-            date.setText(getString(R.string.placeholder, new SimpleDateFormat("dd MMM HH:mm").format(transaction.getTime())));
-
-            layout.addView(newView);
-        } else if (transaction.getToAddr().equals(account.getAddress())) {
-            View newView = inflater.inflate(R.layout.card_received, layout, false);
-
-            TextView amount = (TextView) newView.findViewById(R.id.amount);
-            amount.setText(getString(R.string.transactionFrom, String.valueOf(transaction.getAmount()), transaction.getFromAddr()));
-
-            TextView date = (TextView) newView.findViewById(R.id.date);
-            date.setText(getString(R.string.placeholder, new SimpleDateFormat("dd MMM HH:mm").format(transaction.getTime())));
-
-            layout.addView(newView);
-        }
     }
 
     public void loadingError() {

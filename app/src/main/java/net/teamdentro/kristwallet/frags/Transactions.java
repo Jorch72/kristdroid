@@ -3,6 +3,8 @@ package net.teamdentro.kristwallet.frags;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,12 +48,16 @@ public class Transactions extends Fragment {
         CurrentAccount account = AccountManager.instance.currentAccount;
         account.refresh();
 
-        ListView listView = (ListView) view.findViewById(R.id.transactionsListView);
+        RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.transactionsListView);
+
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(view.getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(layoutManager);
 
         final TransactionsAdapter adapter;
-        adapter = new TransactionsAdapter(view.getContext(), new ArrayList<>(Arrays.asList(account.getTransactions())));
+        adapter = new TransactionsAdapter(view.getContext(), new ArrayList<>(Arrays.asList(account.getTransactions())), R.layout.transaction_list_item);
 
-        listView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
 }
