@@ -52,6 +52,7 @@ public class Overview extends Fragment {
             addCards(view);
 
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.overviewRefresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.accent, R.color.lb600);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

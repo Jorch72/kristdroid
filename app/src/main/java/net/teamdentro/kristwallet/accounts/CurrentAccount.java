@@ -18,6 +18,8 @@ public class CurrentAccount extends Account {
     private long balance;
     private Transaction[] transactions;
 
+    public boolean loaded = false;
+
     public CurrentAccount(int id, String label, String password) {
         super(id, label, password);
     }
@@ -50,6 +52,7 @@ public class CurrentAccount extends Account {
         try {
             balance = api.getBalance();
             transactions = api.getTransactions();
+            loaded = true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;

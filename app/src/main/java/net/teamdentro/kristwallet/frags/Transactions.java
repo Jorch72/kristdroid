@@ -43,15 +43,19 @@ public class Transactions extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        if (AccountManager.instance.currentAccount != null)
-            AccountManager.instance.currentAccount.refresh(new FragmentCallback() {
-                @Override
-                public void onTaskDone() {
-                    addList(view);
-                }
-            });
+        if (AccountManager.instance.currentAccount != null )
+            if(AccountManager.instance.currentAccount.loaded)
+                addList(view);
+            else
+                AccountManager.instance.currentAccount.refresh(new FragmentCallback() {
+                    @Override
+                    public void onTaskDone() {
+                        addList(view);
+                    }
+                });
 
         final SwipeRefreshLayout swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.transactionsRefresh);
+        swipeRefreshLayout.setColorSchemeResources(R.color.accent, R.color.lb600);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
