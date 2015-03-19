@@ -5,6 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 
+import net.teamdentro.kristwallet.util.Constants;
+import net.teamdentro.kristwallet.util.SimpleCrypto;
+
 import java.util.ArrayList;
 
 public class AccountManager {
@@ -12,6 +15,8 @@ public class AccountManager {
 
     private static final String databaseName = "kristwallet";
     private static final String tableName = "kwal_accs";
+
+    private String master;
 
     private SQLiteDatabase database;
     private ArrayList<Account> accounts;
@@ -32,8 +37,10 @@ public class AccountManager {
         accountCreationListener = eventListener;
     }
 
-    public void initialize(Context context) {
+    public void initialize(Context context, String masterPassword) {
         AccountManager.instance = this;
+
+        master = masterPassword;
 
         database = context.openOrCreateDatabase(databaseName, Context.MODE_PRIVATE, null);
         database.execSQL("CREATE TABLE IF NOT EXISTS " + tableName + "(_id INTEGER PRIMARY KEY," +
@@ -51,10 +58,22 @@ public class AccountManager {
         Cursor result = database.rawQuery("SELECT * FROM " + tableName, null);
         if (result.moveToFirst()) {
             do {
+                String rawPassword = null;
+                try {
+                    rawPassword = SimpleCrypto.decrypt(master, result.getString(result.getColumnIndex("password")));
+                    if (!rawPassword.startsWith(Constants.pwvr)) {
+                        throw new Exception();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return;
+                }
+
                 Account newAccount = new Account(
                         result.getInt(result.getColumnIndex("_id")),
                         result.getString(result.getColumnIndex("label")),
-                        result.getString(result.getColumnIndex("password")));
+                        result.getString(result.getColumnIndex("password")),
+                        rawPassword);
                 accounts.add(newAccount);
             } while (result.moveToNext());
         }
@@ -62,11 +81,19 @@ public class AccountManager {
     }
 
     public void addAccount(String password, String label) {
+        String newPassword = null;
+        try {
+            newPassword = SimpleCrypto.encrypt(master, password);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return;
+        }
+
         SQLiteStatement stmt = database.compileStatement("INSERT INTO " + tableName + " (label, password) VALUES (?, ?)");
         stmt.bindString(1, label);
-        stmt.bindString(2, password);
+        stmt.bindString(2, newPassword);
 
-        Account newAccount = new Account((int) stmt.executeInsert(), label, password);
+        Account newAccount = new Account((int) stmt.executeInsert(), label, newPassword, password);
         accounts.add(newAccount);
 
         if (accountCreationListener != null)
