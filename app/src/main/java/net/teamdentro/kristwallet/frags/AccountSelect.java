@@ -17,7 +17,6 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import net.teamdentro.kristwallet.R;
 import net.teamdentro.kristwallet.accounts.Account;
 import net.teamdentro.kristwallet.accounts.AccountManager;
-import net.teamdentro.kristwallet.activities.LoginActivity;
 import net.teamdentro.kristwallet.activities.MainActivity;
 import net.teamdentro.kristwallet.adapters.AccountsAdapter;
 import net.teamdentro.kristwallet.dialogs.AccountCreationDialogFragment;

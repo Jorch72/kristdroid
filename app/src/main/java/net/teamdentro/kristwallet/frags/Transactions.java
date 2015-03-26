@@ -43,8 +43,8 @@ public class Transactions extends Fragment {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
-        if (AccountManager.instance.currentAccount != null )
-            if(AccountManager.instance.currentAccount.loaded)
+        if (AccountManager.instance.currentAccount != null)
+            if (AccountManager.instance.currentAccount.loaded)
                 addList(view);
             else
                 AccountManager.instance.currentAccount.refresh(new FragmentCallback() {

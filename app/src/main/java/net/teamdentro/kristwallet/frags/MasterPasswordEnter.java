@@ -30,8 +30,8 @@ public class MasterPasswordEnter extends Fragment {
         View view = inflater.inflate(R.layout.fragment_login_password, container, false);
         final LoginActivity loginActivity = (LoginActivity) getActivity();
 
-        final EditText password = (EditText)view.findViewById(R.id.masterPassword);
-        Button enterButton = (Button)view.findViewById(R.id.enterPasswordButton);
+        final EditText password = (EditText) view.findViewById(R.id.masterPassword);
+        Button enterButton = (Button) view.findViewById(R.id.enterPasswordButton);
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

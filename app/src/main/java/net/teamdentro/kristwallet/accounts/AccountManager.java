@@ -2,6 +2,7 @@ package net.teamdentro.kristwallet.accounts;
 
 import android.content.Context;
 import android.database.Cursor;
+
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 import net.sqlcipher.database.SQLiteStatement;
