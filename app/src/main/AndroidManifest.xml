@@ -10,7 +10,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Theme.KristLight"
-        android:supportsRtl="true">
+        android:supportsRtl="true"
+        android:name=".KristWallet">
         <activity
             android:name=".activities.MainActivity"
             android:label="@string/app_name" />
