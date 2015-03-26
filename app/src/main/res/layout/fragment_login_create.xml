@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="net.teamdentro.kristwallet.frags.MasterPasswordCreate"
+    android:theme="@style/Theme.KristDark">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/masterPasswordCreate"
+        android:layout_centerHorizontal="true"
+        android:textAlignment="center"
+        android:id="@+id/passwordHint" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/passwordHint">
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/masterPasswordCreate"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/enter"
+            android:id="@+id/enterPasswordButton"
+            android:theme="@style/Theme.KristLight"
+            android:layout_weight="0" />
+    </LinearLayout>
+
+</RelativeLayout>

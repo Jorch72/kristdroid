@@ -7,14 +7,12 @@ public class Account implements Serializable {
 
     private String label;
     private String password;
-    private String rawPassword;
     private int id;
 
-    public Account(int id, String label, String password, String rawPassword) {
+    public Account(int id, String label, String password) {
         this.id = id;
         this.label = label;
         this.password = password;
-        this.rawPassword = rawPassword;
     }
 
     public int getID() {
@@ -27,9 +25,5 @@ public class Account implements Serializable {
 
     public String getPassword() {
         return password;
-    }
-
-    public String getRawPassword() {
-        return rawPassword;
     }
 }

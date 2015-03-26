@@ -71,7 +71,7 @@ public class MainActivity extends ActionBarActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.setDrawerListener(drawerToggle);
 
-        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), R.layout.drawer_list_item, fragments.keySet().toArray());
+        ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.drawer_list_item, fragments.keySet().toArray(new String[]{}));
 
         final ListView drawerList = (ListView) findViewById(R.id.kristDrawerList);
         drawerList.setAdapter(adapter);

@@ -2,12 +2,12 @@ package net.teamdentro.kristwallet.accounts;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteStatement;
+import net.sqlcipher.database.SQLiteDatabase;
+import net.sqlcipher.database.SQLiteException;
+import net.sqlcipher.database.SQLiteStatement;
 
-import net.teamdentro.kristwallet.util.Constants;
-import net.teamdentro.kristwallet.util.SimpleCrypto;
-
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class AccountManager {
@@ -37,63 +37,57 @@ public class AccountManager {
         accountCreationListener = eventListener;
     }
 
-    public void initialize(Context context, String masterPassword) {
+    public boolean initialize(Context context, String masterPassword) throws SQLiteException {
         AccountManager.instance = this;
 
         master = masterPassword;
 
-        database = context.openOrCreateDatabase(databaseName, Context.MODE_PRIVATE, null);
+        SQLiteDatabase.loadLibs(context);
+        File databaseFile = context.getDatabasePath("kristwallet.db");
+        databaseFile.getParentFile().mkdirs();
+        try {
+            databaseFile.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        try {
+            database = SQLiteDatabase.openOrCreateDatabase(databaseFile, masterPassword, null);
+        } catch (SQLiteException e) {
+            throw e;
+        }
         database.execSQL("CREATE TABLE IF NOT EXISTS " + tableName + "(_id INTEGER PRIMARY KEY," +
                 "`label` VARCHAR(42) NOT NULL," +
                 "`password` VARCHAR(255) NOT NULL)");
 
         accounts = new ArrayList<>();
 
-        loadAccounts();
+        return loadAccounts();
     }
 
-    public void loadAccounts() {
+    public boolean loadAccounts() {
         accounts.clear();
 
         Cursor result = database.rawQuery("SELECT * FROM " + tableName, null);
         if (result.moveToFirst()) {
             do {
-                String rawPassword = null;
-                try {
-                    rawPassword = SimpleCrypto.decrypt(master, result.getString(result.getColumnIndex("password")));
-                    if (!rawPassword.startsWith(Constants.pwvr)) {
-                        throw new Exception();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return;
-                }
-
                 Account newAccount = new Account(
                         result.getInt(result.getColumnIndex("_id")),
                         result.getString(result.getColumnIndex("label")),
-                        result.getString(result.getColumnIndex("password")),
-                        rawPassword);
+                        result.getString(result.getColumnIndex("password")));
                 accounts.add(newAccount);
             } while (result.moveToNext());
         }
         result.close();
+        return true;
     }
 
     public void addAccount(String password, String label) {
-        String newPassword = null;
-        try {
-            newPassword = SimpleCrypto.encrypt(master, password);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return;
-        }
-
         SQLiteStatement stmt = database.compileStatement("INSERT INTO " + tableName + " (label, password) VALUES (?, ?)");
         stmt.bindString(1, label);
-        stmt.bindString(2, newPassword);
+        stmt.bindString(2, password);
 
-        Account newAccount = new Account((int) stmt.executeInsert(), label, newPassword, password);
+        Account newAccount = new Account((int) stmt.executeInsert(), label, password);
         accounts.add(newAccount);
 
         if (accountCreationListener != null)
