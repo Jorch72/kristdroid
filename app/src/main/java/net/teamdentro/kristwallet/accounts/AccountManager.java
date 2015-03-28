@@ -1,11 +1,16 @@
 package net.teamdentro.kristwallet.accounts;
 
+import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 
 import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 import net.sqlcipher.database.SQLiteStatement;
+import net.teamdentro.kristwallet.activities.LoginActivity;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +34,23 @@ public class AccountManager {
     }
 
     public CurrentAccount currentAccount = null;
+
+    public void reset(Context context) {
+        File databaseFile = context.getDatabasePath("kristwallet.db");
+        databaseFile.delete();
+
+        Intent activity = new Intent(context, LoginActivity.class);
+        int pendingId = 123456;
+        PendingIntent mPendingIntent = PendingIntent.getActivity(context, pendingId, activity, PendingIntent.FLAG_CANCEL_CURRENT);
+        AlarmManager mgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, mPendingIntent);
+        System.exit(0);
+    }
+
+    public static boolean databaseExists(Context context) {
+        File databaseFile = context.getDatabasePath("kristwallet.db");
+        return databaseFile.exists();
+    }
 
     public interface OnAccountCreatedListener {
         public void onEvent();

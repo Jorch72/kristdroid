@@ -1,0 +1,26 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/settingsWallets"
+        android:key="settingsWallets">
+        <net.teamdentro.kristwallet.frags.YesNoPreference android:key="walletReset"
+            android:title="@string/walletReset"
+            android:dialogMessage="@string/walletResetDialog"
+            android:summary="@string/walletSummary"
+            android:persistent="false"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/settingsErrorReporting"
+        android:key="settingsErrorReporting">
+        <CheckBoxPreference android:key="acra.enable"
+            android:title="@string/acraEnable"
+            android:summaryOn="@string/acraEnabled"
+            android:summaryOff="@string/acraDisabled"
+            android:defaultValue="true"/>
+
+        <CheckBoxPreference android:key="acra.syslog.enable"
+            android:summaryOn="@string/acraLogEnabled"
+            android:summaryOff="@string/acraLogDisabled"
+            android:title="@string/acraLogEnable"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+</PreferenceScreen>

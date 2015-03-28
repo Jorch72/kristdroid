@@ -26,7 +26,7 @@ public class LoginActivity extends ActionBarActivity {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (prefs.getBoolean("fr", true)) {
+        if (prefs.getBoolean("fr", true) || !AccountManager.databaseExists(this)) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             transaction.replace(R.id.kristLoginFragment,
                     Fragment.instantiate(LoginActivity.this, MasterPasswordCreate.class.getName()));
@@ -53,7 +53,7 @@ public class LoginActivity extends ActionBarActivity {
                 transaction.commit();
             }
         } catch (SQLiteException e) {
-            Toast.makeText(this, getString(R.string.passwordFailiure), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.passwordFailure), Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Toast.makeText(this, getString(R.string.unknownError), Toast.LENGTH_LONG).show();
             e.printStackTrace();

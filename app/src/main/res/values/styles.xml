@@ -6,7 +6,6 @@
         <item name="colorControlActivated">@color/accent</item>
         <item name="colorControlHighlight">@color/accent</item>
         <item name="windowActionBar">false</item>
-        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="Theme.KristDark" parent="Theme.AppCompat">
@@ -16,7 +15,6 @@
         <item name="colorControlActivated">@color/accent</item>
         <item name="colorControlHighlight">@color/accent</item>
         <item name="windowActionBar">false</item>
-        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="NavDrawer">
@@ -24,7 +22,5 @@
         <item name="android:layout_marginRight">@dimen/nav_drawer_margin_offset</item>
     </style>
 
-    <style name="CardStyle">
-        <item name="android:layout_marginBottom">8dp</item>
-    </style>
+    <style name="Theme.Dialog" parent="@android:style/Theme.Dialog" />
 </resources>

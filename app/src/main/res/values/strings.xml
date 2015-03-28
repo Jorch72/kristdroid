@@ -42,6 +42,22 @@
     <string name="masterPasswordHint">Enter your master password to access your wallet book</string>
     <string name="masterPasswordCreate">Create a master password to encrypt your wallet book</string>
     <string name="enter">Enter</string>
-    <string name="passwordFailiure">Incorrect password</string>
+    <string name="passwordFailure">Incorrect password</string>
     <string name="unknownError">Unknown error</string>
+
+    <string name="settings">Settings</string>
+    <string name="settingsWallets">Wallets</string>
+    <string name="settingsErrorReporting">Error Reporting and Privacy</string>
+
+    <string name="walletReset">Reset wallets</string>
+    <string name="walletSummary">Empties your current address book and removes its password.</string>
+    <string name="walletResetDialog">Are you sure you want to reset your wallets? This cannot be undone.</string>
+
+    <string name="acraEnable">Enable error reporting</string>
+    <string name="acraDisabled">Error reporting disabled</string>
+    <string name="acraEnabled">Error reporting enabled</string>
+    <string name="acraLogEnable">Enable system log sending along with error reports</string>
+    <string name="acraLogDisabled">System logs will not be sent</string>
+    <string name="acraLogEnabled">System logs will be sent</string>
+    <string name="acraDialog">Krist Wallet has crashed. Please help us fix this by sending an error report.</string>
 </resources>

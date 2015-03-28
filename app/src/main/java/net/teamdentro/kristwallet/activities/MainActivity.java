@@ -108,9 +108,15 @@ public class MainActivity extends ActionBarActivity {
         return true;
     }
 
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
+                return true;
+            default:
+                return drawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
