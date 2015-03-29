@@ -78,7 +78,12 @@
                     android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:paddingBottom="8dp"></LinearLayout>
+                    android:paddingBottom="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/comingSoon"/>
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/tab3"
@@ -86,7 +91,12 @@
                     android:layout_height="fill_parent"
                     android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:paddingBottom="8dp"></LinearLayout>
+                    android:paddingBottom="8dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/comingSoon"/>
+                    </LinearLayout>
             </FrameLayout>
         </LinearLayout>
     </TabHost>

@@ -67,4 +67,5 @@
     <string name="accountTypeLogin">Login</string>
     <string name="accountTypeQR">QR</string>
     <string name="accountTypeNFC">NFC</string>
+    <string name="comingSoon">Coming Soon</string>
 </resources>
