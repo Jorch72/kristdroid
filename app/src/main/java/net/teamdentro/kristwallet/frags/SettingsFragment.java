@@ -1,16 +1,14 @@
 package net.teamdentro.kristwallet.frags;
 
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceFragment;
 
 import net.teamdentro.kristwallet.R;
-import net.teamdentro.kristwallet.accounts.AccountManager;
+import net.teamdentro.kristwallet.krist.AccountManager;
 
 public class SettingsFragment extends PreferenceFragment {
     @Override
-    public void onCreate(final Bundle savedInstanceState)
-    {
+    public void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.settings);
 

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import net.teamdentro.kristwallet.accounts.Account;
+import net.teamdentro.kristwallet.krist.Account;
 
 import java.util.ArrayList;
 

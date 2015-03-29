@@ -1,4 +1,4 @@
-package net.teamdentro.kristwallet.accounts;
+package net.teamdentro.kristwallet.krist;
 
 import java.io.Serializable;
 
@@ -8,11 +8,13 @@ public class Account implements Serializable {
     private String label;
     private String password;
     private int id;
+    private Node node;
 
-    public Account(int id, String label, String password) {
+    public Account(int id, String label, String password, Node node) {
         this.id = id;
         this.label = label;
         this.password = password;
+        this.node = node;
     }
 
     public int getID() {
@@ -25,5 +27,9 @@ public class Account implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public Node getNode() {
+        return node;
     }
 }

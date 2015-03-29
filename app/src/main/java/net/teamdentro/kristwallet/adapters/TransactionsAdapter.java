@@ -12,8 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import net.teamdentro.kristwallet.R;
-import net.teamdentro.kristwallet.accounts.AccountManager;
-import net.teamdentro.kristwallet.accounts.CurrentAccount;
+import net.teamdentro.kristwallet.krist.AccountManager;
+import net.teamdentro.kristwallet.krist.CurrentAccount;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

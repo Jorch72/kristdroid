@@ -36,10 +36,10 @@ public class MasterPasswordEnter extends Fragment {
         enterButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                         Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(password.getWindowToken(), 0);
-                loginActivity.attemptAccess(password.getText().toString());
+                loginActivity.init(password.getText().toString());
             }
         });
 

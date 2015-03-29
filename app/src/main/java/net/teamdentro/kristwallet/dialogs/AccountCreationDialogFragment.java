@@ -10,9 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 import net.teamdentro.kristwallet.R;
-import net.teamdentro.kristwallet.accounts.AccountManager;
+import net.teamdentro.kristwallet.adapters.NodeAdapter;
+import net.teamdentro.kristwallet.krist.AccountManager;
+import net.teamdentro.kristwallet.krist.Node;
 import net.teamdentro.kristwallet.util.EmptyTransformationMethod;
 
 public class AccountCreationDialogFragment extends DialogFragment {
@@ -34,14 +37,18 @@ public class AccountCreationDialogFragment extends DialogFragment {
 
         password.setTransformationMethod(new PasswordTransformationMethod());
 
+        final Spinner nodeSpinner = (Spinner) v.findViewById(R.id.nodeSpinner);
+        nodeSpinner.setAdapter(new NodeAdapter(getActivity(), AccountManager.instance.getNodes()));
+
         builder.setView(v)
                 .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         final EditText password = (EditText) v.findViewById(R.id.passwordEditText);
                         final EditText label = (EditText) v.findViewById(R.id.accountLabel);
+                        final Spinner nodeSpinner = (Spinner) v.findViewById(R.id.nodeSpinner);
 
-                        AccountManager.instance.addAccount(password.getText().toString(), label.getText().toString());
+                        AccountManager.instance.addAccount(password.getText().toString(), label.getText().toString(), (Node) nodeSpinner.getSelectedItem());
                     }
                 });
 

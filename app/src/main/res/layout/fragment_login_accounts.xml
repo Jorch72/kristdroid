@@ -1,44 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    tools:context="net.teamdentro.kristwallet.frags.AccountSelect"
-    android:theme="@style/Theme.KristDark">
+    android:theme="@style/Theme.KristDark"
+    tools:context="net.teamdentro.kristwallet.frags.AccountSelect">
 
     <TextView
+        android:id="@+id/accountSelectLabel"
+        style="?android:listSeparatorTextViewStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/account_select"
-        android:id="@+id/accountSelectLabel"
-        android:layout_below="@+id/accountSelectKristIcon"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        style="?android:listSeparatorTextViewStyle"
-        android:textColor="#ffffffff"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:gravity="center" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/accountSelectKristIcon"
+        android:gravity="center"
+        android:text="@string/account_select"
+        android:textColor="#ffffffff" />
 
     <ListView
+        android:id="@+id/accountSelectListView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:id="@+id/accountSelectListView"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_below="@+id/accountSelectLabel" />
 
     <com.getbase.floatingactionbutton.AddFloatingActionButton
         android:id="@+id/addAcountFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        fab:fab_plusIconColor="@color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         fab:fab_colorNormal="@color/doA200"
         fab:fab_colorPressed="@color/doA400"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        fab:fab_plusIconColor="@color/white" />
 
 </RelativeLayout>

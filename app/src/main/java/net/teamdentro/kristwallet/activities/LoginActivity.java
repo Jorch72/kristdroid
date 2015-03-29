@@ -10,10 +10,11 @@ import android.widget.Toast;
 
 import net.sqlcipher.database.SQLiteException;
 import net.teamdentro.kristwallet.R;
-import net.teamdentro.kristwallet.accounts.AccountManager;
 import net.teamdentro.kristwallet.frags.AccountSelect;
 import net.teamdentro.kristwallet.frags.MasterPasswordCreate;
 import net.teamdentro.kristwallet.frags.MasterPasswordEnter;
+import net.teamdentro.kristwallet.krist.AccountManager;
+import net.teamdentro.kristwallet.util.TaskCallback;
 
 public class LoginActivity extends ActionBarActivity {
     SharedPreferences prefs = null;
@@ -41,32 +42,30 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-    public void attemptAccess(String text) {
-        try {
-            boolean result = new AccountManager().initialize(this, text);
-
-            if (result) {
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-                transaction.replace(R.id.kristLoginFragment,
-                        Fragment.instantiate(LoginActivity.this, AccountSelect.class.getName()));
-                transaction.commit();
+    public void init(String text) {
+        new AccountManager().initialize(this, text, new TaskCallback() {
+            @Override
+            public void onTaskDone() {
+                try {
+                    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                    transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    transaction.replace(R.id.kristLoginFragment,
+                            Fragment.instantiate(LoginActivity.this, AccountSelect.class.getName()));
+                    transaction.commit();
+                } catch (SQLiteException e) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.passwordFailure), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    Toast.makeText(LoginActivity.this, getString(R.string.unknownError), Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
+                }
             }
-        } catch (SQLiteException e) {
-            Toast.makeText(this, getString(R.string.passwordFailure), Toast.LENGTH_LONG).show();
-        } catch (Exception e) {
-            Toast.makeText(this, getString(R.string.unknownError), Toast.LENGTH_LONG).show();
-            e.printStackTrace();
-        }
-    }
 
-    public void access(String text) {
-        new AccountManager().initialize(this, text);
+            @Override
+            public void onTaskFail() {
+                Toast.makeText(LoginActivity.this, getString(R.string.nodeError), Toast.LENGTH_LONG).show();
+                System.exit(0);
+            }
+        });
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-        transaction.replace(R.id.kristLoginFragment,
-                Fragment.instantiate(LoginActivity.this, AccountSelect.class.getName()));
-        transaction.commit();
     }
 }

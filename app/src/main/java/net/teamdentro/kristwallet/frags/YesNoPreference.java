@@ -16,18 +16,12 @@
 
 package net.teamdentro.kristwallet.frags;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 
-import net.teamdentro.kristwallet.R;
-
-public class YesNoPreference extends DialogPreference {private YesNoDialogListener mListener;
+public class YesNoPreference extends DialogPreference {
+    private YesNoDialogListener mListener;
 
     public abstract interface YesNoDialogListener {
         public abstract void onDialogClosed(boolean positiveResult);
@@ -38,7 +32,7 @@ public class YesNoPreference extends DialogPreference {private YesNoDialogListen
     }
 
     public YesNoPreference(Context context, AttributeSet attrs,
-                                 int defStyle) {
+                           int defStyle) {
         super(context, attrs, defStyle);
     }
 

@@ -11,10 +11,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.teamdentro.kristwallet.R;
-import net.teamdentro.kristwallet.accounts.AccountManager;
-import net.teamdentro.kristwallet.accounts.CurrentAccount;
 import net.teamdentro.kristwallet.adapters.TransactionsAdapter;
-import net.teamdentro.kristwallet.util.FragmentCallback;
+import net.teamdentro.kristwallet.krist.AccountManager;
+import net.teamdentro.kristwallet.krist.CurrentAccount;
+import net.teamdentro.kristwallet.util.TaskCallback;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -47,7 +47,7 @@ public class Transactions extends Fragment {
             if (AccountManager.instance.currentAccount.loaded)
                 addList(view);
             else
-                AccountManager.instance.currentAccount.refresh(new FragmentCallback() {
+                AccountManager.instance.currentAccount.refresh(new TaskCallback() {
                     @Override
                     public void onTaskDone() {
                         addList(view);
@@ -59,7 +59,7 @@ public class Transactions extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                AccountManager.instance.currentAccount.refresh(new FragmentCallback() {
+                AccountManager.instance.currentAccount.refresh(new TaskCallback() {
                     @Override
                     public void onTaskDone() {
                         addList();

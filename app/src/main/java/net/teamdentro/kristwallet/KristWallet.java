@@ -1,6 +1,9 @@
 package net.teamdentro.kristwallet;
 
 import android.app.Application;
+import android.util.Log;
+
+import net.teamdentro.kristwallet.util.Constants;
 
 import org.acra.ACRA;
 import org.acra.ReportingInteractionMode;
@@ -16,7 +19,7 @@ import org.acra.annotation.ReportsCrashes;
 public class KristWallet extends Application {
     @Override
     public void onCreate() {
-        System.out.println("KristWallet");
+        Log.d(Constants.krist, "KristWallet loaded");
         ACRA.init(this);
 
         super.onCreate();

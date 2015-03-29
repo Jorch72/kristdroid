@@ -20,11 +20,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import net.teamdentro.kristwallet.R;
-import net.teamdentro.kristwallet.accounts.Account;
-import net.teamdentro.kristwallet.accounts.AccountManager;
-import net.teamdentro.kristwallet.accounts.CurrentAccount;
 import net.teamdentro.kristwallet.frags.Overview;
 import net.teamdentro.kristwallet.frags.Transactions;
+import net.teamdentro.kristwallet.krist.Account;
+import net.teamdentro.kristwallet.krist.AccountManager;
+import net.teamdentro.kristwallet.krist.CurrentAccount;
 
 import java.util.TreeMap;
 
@@ -157,7 +157,7 @@ public class MainActivity extends ActionBarActivity {
         protected Boolean doInBackground(Account... accounts) {
             Account account = accounts[0];
 
-            CurrentAccount currentAccount = new CurrentAccount(account.getID(), account.getLabel(), account.getPassword());
+            CurrentAccount currentAccount = new CurrentAccount(account.getID(), account.getLabel(), account.getPassword(), account.getNode());
             if (!currentAccount.initialize()) return Boolean.FALSE;
 
             AccountManager.instance.currentAccount = currentAccount;

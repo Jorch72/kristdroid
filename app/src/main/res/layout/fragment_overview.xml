@@ -1,17 +1,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/overviewLinearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="net.teamdentro.kristwallet.frags.Overview"
     android:orientation="vertical"
-    android:id="@+id/overviewLinearLayout">
+    tools:context="net.teamdentro.kristwallet.frags.Overview">
 
-    <include layout="@layout/card_overview"
-        android:layout_marginTop="@dimen/card_gutter"
+    <include
+        layout="@layout/card_overview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/card_gutter"
         android:layout_marginRight="@dimen/card_gutter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="@dimen/card_gutter" />
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/overviewRefresh"
@@ -19,9 +20,9 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.RecyclerView
+            android:id="@+id/overviewListView"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
-            android:id="@+id/overviewListView"
             android:scrollbars="vertical" />
 
     </android.support.v4.widget.SwipeRefreshLayout>

@@ -13,10 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import net.teamdentro.kristwallet.R;
-import net.teamdentro.kristwallet.accounts.AccountManager;
-import net.teamdentro.kristwallet.accounts.CurrentAccount;
 import net.teamdentro.kristwallet.adapters.TransactionsAdapter;
-import net.teamdentro.kristwallet.util.FragmentCallback;
+import net.teamdentro.kristwallet.krist.AccountManager;
+import net.teamdentro.kristwallet.krist.CurrentAccount;
+import net.teamdentro.kristwallet.util.TaskCallback;
 
 import org.apache.commons.lang3.ArrayUtils;
 
@@ -56,7 +56,7 @@ public class Overview extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                AccountManager.instance.currentAccount.refresh(new FragmentCallback() {
+                AccountManager.instance.currentAccount.refresh(new TaskCallback() {
                     @Override
                     public void onTaskDone() {
                         addCards();

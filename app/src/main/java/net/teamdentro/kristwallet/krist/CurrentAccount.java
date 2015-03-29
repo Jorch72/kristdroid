@@ -1,17 +1,11 @@
-package net.teamdentro.kristwallet.accounts;
+package net.teamdentro.kristwallet.krist;
 
 import android.os.AsyncTask;
 
-import net.teamdentro.kristwallet.util.Constants;
-import net.teamdentro.kristwallet.util.FragmentCallback;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
+import net.teamdentro.kristwallet.util.TaskCallback;
 
 import io.github.apemanzilla.kwallet.KristAPI;
 import io.github.apemanzilla.kwallet.types.Transaction;
-import io.github.apemanzilla.kwallet.util.HTTP;
 
 public class CurrentAccount extends Account {
     private KristAPI api;
@@ -20,31 +14,18 @@ public class CurrentAccount extends Account {
 
     public boolean loaded = false;
 
-    public CurrentAccount(int id, String label, String password) {
-        super(id, label, password);
+    public CurrentAccount(int id, String label, String password, Node node) {
+        super(id, label, password, node);
     }
 
     public boolean initialize() {
-        String apiLink = null;
-        try {
-            apiLink = HTTP.readURL(new URL(Constants.syncNode));
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        try {
-            String updatedPassword = KristAPI.sha256Hex("KRISTWALLET" + getPassword()) + "-000";
-            api = new KristAPI(new URL(apiLink), updatedPassword);
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-            return false;
-        }
+        String updatedPassword = KristAPI.sha256Hex("KRISTWALLET" + getPassword()) + "-000";
+        api = new KristAPI(getNode().url, updatedPassword);
 
         return refreshNonAsynchronously();
     }
 
-    public void refresh(FragmentCallback callback) {
+    public void refresh(TaskCallback callback) {
         new RefreshAccountTask(callback).execute();
     }
 
@@ -61,9 +42,9 @@ public class CurrentAccount extends Account {
     }
 
     private class RefreshAccountTask extends AsyncTask<Void, Void, Void> {
-        private FragmentCallback callback;
+        private TaskCallback callback;
 
-        public RefreshAccountTask(FragmentCallback callback) {
+        public RefreshAccountTask(TaskCallback callback) {
             this.callback = callback;
         }
 

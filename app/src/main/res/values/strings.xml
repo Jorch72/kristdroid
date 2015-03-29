@@ -60,4 +60,8 @@
     <string name="acraLogDisabled">System logs will not be sent</string>
     <string name="acraLogEnabled">System logs will be sent</string>
     <string name="acraDialog">Krist Wallet has crashed. Please help us fix this by sending an error report.</string>
+
+    <string name="nodeInfo">%1$s at %2$s</string>
+    <string name="nodes">Nodes</string>
+    <string name="nodeError">Failed to get nodes</string>
 </resources>
