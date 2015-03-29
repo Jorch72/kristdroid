@@ -8,6 +8,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/Theme.KristDark"
+    android:popupTheme="@style/Theme.KristLight"
+    android:popupMenuStyle="@style/Theme.KristLight"
+    android:popupBackground="@style/Theme.KristLight"
     tools:context="net.teamdentro.kristwallet.activities.LoginActivity">
 
     <ImageView

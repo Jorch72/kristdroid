@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TabHost;
 
 import net.teamdentro.kristwallet.R;
 import net.teamdentro.kristwallet.adapters.NodeAdapter;
@@ -25,6 +26,24 @@ public class AccountCreationDialogFragment extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
 
         final View v = inflater.inflate(R.layout.dialog_account_create, null);
+
+        TabHost tabHost = (TabHost) v.findViewById(R.id.accountTabs);
+        tabHost.setup();
+
+        TabHost.TabSpec tab1 = tabHost.newTabSpec("tab1");
+        tab1.setIndicator(getActivity().getString(R.string.accountTypeLogin), getActivity().getResources().getDrawable(R.drawable.ic_input));
+        tab1.setContent(R.id.tab1);
+        tabHost.addTab(tab1);
+
+        TabHost.TabSpec tab2 = tabHost.newTabSpec("tab2");
+        tab2.setIndicator(getActivity().getString(R.string.accountTypeQR), getActivity().getResources().getDrawable(R.drawable.ic_camera_alt));
+        tab2.setContent(R.id.tab2);
+        tabHost.addTab(tab2);
+
+        TabHost.TabSpec tab3 = tabHost.newTabSpec("tab3");
+        tab3.setIndicator(getActivity().getString(R.string.accountTypeNFC), getActivity().getResources().getDrawable(R.drawable.ic_nfc));
+        tab3.setContent(R.id.tab3);
+        tabHost.addTab(tab3);
 
         final CheckBox showPass = (CheckBox) v.findViewById(R.id.showPasswordCheckbox);
         final EditText password = (EditText) v.findViewById(R.id.passwordEditText);
