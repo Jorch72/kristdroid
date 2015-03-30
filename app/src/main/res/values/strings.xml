@@ -74,4 +74,14 @@
     <string name="send">Send</string>
     <string name="amount">Amount</string>
     <string name="recipient">Recipient</string>
+    <string name="selectFromAddressBook">Select from Address Book</string>
+
+    <string name="insufficientFunds">Insufficient Funds</string>
+    <string name="insufficientFundsDetail">You don\'t have enough %1$s for this transaction</string>
+    <string name="invalidRecipient">Invalid Recipient</string>
+    <string name="invalidRecipientDetail">Address is invalid or badly formatted</string>
+    <string name="badValue">Bad Value</string>
+    <string name="badValueDetail">Invalid amount of %1$s</string>
+    <string name="selfSend">Self Send</string>
+    <string name="selfSendDetail">You can\'t send %1$s to yourself</string>
 </resources>

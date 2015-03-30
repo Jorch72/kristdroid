@@ -1,16 +1,24 @@
 package net.teamdentro.kristwallet.frags;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import net.teamdentro.kristwallet.R;
+import net.teamdentro.kristwallet.exception.BadValueException;
+import net.teamdentro.kristwallet.exception.InsufficientFundsException;
+import net.teamdentro.kristwallet.exception.InvalidRecipientException;
+import net.teamdentro.kristwallet.exception.SelfSendException;
+import net.teamdentro.kristwallet.exception.UnknownException;
 import net.teamdentro.kristwallet.krist.AccountManager;
 import net.teamdentro.kristwallet.krist.CurrentAccount;
 import net.teamdentro.kristwallet.util.TaskCallback;
@@ -58,34 +66,65 @@ public class SendCurrency extends Fragment {
     }
 
     private void send(View view) {
-        CurrentAccount account = AccountManager.instance.currentAccount;
+        final CurrentAccount account = AccountManager.instance.currentAccount;
         EditText sendAmount = (EditText) view.findViewById(R.id.sendAmount);
+        EditText recipient = (EditText) view.findViewById(R.id.sendRecipient);
         long amount;
-        long balance = account.getBalance();
+        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(sendAmount.getWindowToken(), 0);
 
         if (StringUtils.isNumeric(sendAmount.getText())) {
             try {
                 amount = Long.parseLong(String.valueOf(sendAmount.getText()));
-                if (amount > 0) {
-                    if (amount <= balance) {
-                        account.send(amount, new TaskCallback() {
-                            @Override
-                            public void onTaskDone() {
+                account.send(amount, String.valueOf(recipient.getText()), new TaskCallback() {
+                    @Override
+                    public void onTaskDone() {
 
-                            }
-                        });
-                    } else {
-                        // TO-DO: insufficiency
                     }
-                } else {
-                    // TO-DO: zero or negative
-                }
+
+                    @Override
+                    public void onTaskFail(Exception e) {
+                        if (e instanceof InsufficientFundsException) {
+                            error(getActivity().getString(R.string.insufficientFunds),
+                                    getActivity().getString(R.string.insufficientFundsDetail, StringUtils.capitalize(account.getNode().currency)));
+                        } else if (e instanceof InvalidRecipientException) {
+                            error(getActivity().getString(R.string.invalidRecipient),
+                                    getActivity().getString(R.string.invalidRecipientDetail));
+                        } else if (e instanceof BadValueException) {
+                            error(getActivity().getString(R.string.badValue),
+                                    getActivity().getString(R.string.badValueDetail, StringUtils.capitalize(account.getNode().currency)));
+                        } else if (e instanceof SelfSendException) {
+                            error(getActivity().getString(R.string.selfSend),
+                                    getActivity().getString(R.string.selfSendDetail, StringUtils.capitalize(account.getNode().currency)));
+                        } else if (e instanceof UnknownException) {
+                            error(getActivity().getString(R.string.unknownError),
+                                    e.getMessage());
+                        }
+                    }
+                });
             } catch (NumberFormatException e) {
-                // TO-DO: not a number
+                error(getActivity().getString(R.string.badValue),
+                        getActivity().getString(R.string.badValueDetail, StringUtils.capitalize(account.getNode().currency)));
             }
         } else {
-            // TO-DO: not a number
+            error(getActivity().getString(R.string.badValue),
+                    getActivity().getString(R.string.badValueDetail, StringUtils.capitalize(account.getNode().currency)));
         }
+    }
+
+    private void error(String title, String message) {
+        new AlertDialog.Builder(getActivity())
+                .setTitle(title)
+                .setMessage(message)
+                .setIcon(R.drawable.ic_error)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                .create().show();
     }
 
     private void updateBalance(View view) {

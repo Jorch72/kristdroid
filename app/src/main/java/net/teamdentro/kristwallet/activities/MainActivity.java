@@ -27,8 +27,6 @@ import net.teamdentro.kristwallet.krist.Account;
 import net.teamdentro.kristwallet.krist.AccountManager;
 import net.teamdentro.kristwallet.krist.CurrentAccount;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.TreeMap;
 
 public class MainActivity extends ActionBarActivity {
@@ -162,7 +160,11 @@ public class MainActivity extends ActionBarActivity {
             Account account = accounts[0];
 
             CurrentAccount currentAccount = new CurrentAccount(account.getID(), account.getLabel(), account.getPassword(), account.getNode());
-            if (!currentAccount.initialize()) return Boolean.FALSE;
+            try {
+                if (!currentAccount.initialize()) return Boolean.FALSE;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
             AccountManager.instance.currentAccount = currentAccount;
             return Boolean.TRUE;

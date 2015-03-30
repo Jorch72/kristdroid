@@ -61,7 +61,7 @@ public class LoginActivity extends ActionBarActivity {
             }
 
             @Override
-            public void onTaskFail() {
+            public void onTaskFail(Exception e) {
                 Toast.makeText(LoginActivity.this, getString(R.string.nodeError), Toast.LENGTH_LONG).show();
                 System.exit(0);
             }

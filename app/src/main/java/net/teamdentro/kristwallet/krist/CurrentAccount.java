@@ -2,11 +2,9 @@ package net.teamdentro.kristwallet.krist;
 
 import android.os.AsyncTask;
 
+import net.teamdentro.kristwallet.exception.BadValueException;
 import net.teamdentro.kristwallet.exception.InsufficientFundsException;
-import net.teamdentro.kristwallet.exception.InvalidFundsException;
 import net.teamdentro.kristwallet.util.TaskCallback;
-
-import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 
@@ -24,7 +22,7 @@ public class CurrentAccount extends Account {
         super(id, label, password, node);
     }
 
-    public boolean initialize() {
+    public boolean initialize() throws Exception {
         String updatedPassword = KristAPI.sha256Hex("KRISTWALLET" + getPassword()) + "-000";
         api = new KristAPI(getNode().url, updatedPassword);
 
@@ -36,13 +34,9 @@ public class CurrentAccount extends Account {
     }
 
     private boolean refreshNonAsynchronously() throws Exception {
-        try {
-            balance = api.getBalance();
-            transactions = api.getTransactions();
-            loaded = true;
-        } catch (Exception e) {
-            throw e;
-        }
+        balance = api.getBalance();
+        transactions = api.getTransactions();
+        loaded = true;
         return true;
     }
 
@@ -58,6 +52,7 @@ public class CurrentAccount extends Account {
         private TaskCallback callback;
         private long amount;
         private String recipient;
+        private Exception e;
 
         public SendTask(long amount, String recipient, TaskCallback callback) {
             this.amount = amount;
@@ -70,21 +65,28 @@ public class CurrentAccount extends Account {
             if (amount > 0 && amount <= balance) {
                 try {
                     api.sendKrist(amount, recipient);
-                } catch (IOException e) {
-                    callback.onTaskFail(e);
+                } catch (Exception e) {
+                    this.e = e;
+                    return null;
                 }
-            } else if (amount <= balance) {
-                callback.onTaskFail(new InsufficientFundsException());
+            } else if (amount > balance) {
+                e = new InsufficientFundsException();
+                return null;
             } else {
-                callback.onTaskFail(new InvalidFundsException());
+                e = new BadValueException();
+                return null;
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            if (callback != null)
-                callback.onTaskDone();
+            if (callback != null) {
+                if (e == null)
+                    callback.onTaskDone();
+                else
+                    callback.onTaskFail(e);
+            }
         }
     }
 
@@ -102,6 +104,7 @@ public class CurrentAccount extends Account {
                 refreshNonAsynchronously();
             } catch (Exception e) {
                 this.e = e;
+                return null;
             }
             return null;
         }
@@ -119,6 +122,7 @@ public class CurrentAccount extends Account {
 
     private class RefreshBalanceTask extends AsyncTask<Void, Void, Void> {
         private TaskCallback callback;
+        private Exception e;
 
         public RefreshBalanceTask(TaskCallback callback) {
             this.callback = callback;
@@ -129,15 +133,20 @@ public class CurrentAccount extends Account {
             try {
                 balance = api.getBalance();
             } catch (IOException e) {
-                callback.onTaskFail(e);
+                this.e = e;
+                return null;
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            if (callback != null)
-                callback.onTaskDone();
+            if (callback != null) {
+                if (e == null)
+                    callback.onTaskDone();
+                else
+                    callback.onTaskFail(e);
+            }
         }
     }
 

@@ -12,6 +12,7 @@ import net.sqlcipher.database.SQLiteDatabase;
 import net.sqlcipher.database.SQLiteException;
 import net.sqlcipher.database.SQLiteStatement;
 import net.teamdentro.kristwallet.activities.LoginActivity;
+import net.teamdentro.kristwallet.exception.InvalidNodeException;
 import net.teamdentro.kristwallet.util.Constants;
 import net.teamdentro.kristwallet.util.JSONParser;
 import net.teamdentro.kristwallet.util.TaskCallback;
@@ -93,8 +94,7 @@ public class AccountManager {
         try {
             databaseFile.createNewFile();
         } catch (IOException e) {
-            e.printStackTrace();
-            callback.onTaskFail();
+            callback.onTaskFail(e);
             return;
         }
         try {
@@ -112,15 +112,17 @@ public class AccountManager {
         loadNodes(new TaskCallback() {
             @Override
             public void onTaskDone() {
-                if (loadAccounts())
+                try {
+                    loadAccounts();
                     callback.onTaskDone();
-                else
-                    callback.onTaskFail();
+                } catch (InvalidNodeException e) {
+                    callback.onTaskFail(e);
+                }
             }
         });
     }
 
-    public boolean loadAccounts() {
+    public boolean loadAccounts() throws InvalidNodeException {
         accounts.clear();
 
         Cursor result = database.rawQuery("SELECT * FROM " + tableName, null);
@@ -129,7 +131,7 @@ public class AccountManager {
                 Node node = getNode(result.getString(result.getColumnIndex("node")));
                 if (node == null) {
                     result.close();
-                    return false;
+                    throw new InvalidNodeException();
                 }
                 Account newAccount = new Account(
                         result.getInt(result.getColumnIndex("_id")),

@@ -5,6 +5,12 @@
 
 package io.github.apemanzilla.kwallet;
 
+import net.teamdentro.kristwallet.exception.BadValueException;
+import net.teamdentro.kristwallet.exception.InsufficientFundsException;
+import net.teamdentro.kristwallet.exception.InvalidRecipientException;
+import net.teamdentro.kristwallet.exception.SelfSendException;
+import net.teamdentro.kristwallet.exception.UnknownException;
+
 import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -82,27 +88,27 @@ public class KristAPI {
         Unknown
     }
 
-    public TransferResults sendKrist(long amount, String recipient) throws IOException {
+    public void sendKrist(long amount, String recipient) throws IOException, SelfSendException, InsufficientFundsException, BadValueException, InvalidRecipientException, UnknownException {
         if (address.equals(recipient))
-            return TransferResults.SelfSend;
+            throw new SelfSendException();
         switch (HTTP.readURL(new URL(remoteAPI, "?pushtx2&q=" + recipient + "&pkey=" + key + "&amt=" + amount))) {
             case "Success": {
-                return TransferResults.Success;
+                return;
             }
             case "Error1": {
-                return TransferResults.InsufficientFunds;
+                throw new InsufficientFundsException();
             }
             case "Error2": {
-                return TransferResults.NotEnoughKST;
+                throw new InsufficientFundsException();
             }
             case "Error3": {
-                return TransferResults.BadValue;
+                throw new BadValueException();
             }
             case "Error4": {
-                return TransferResults.InvalidRecipient;
+                throw new InvalidRecipientException();
             }
             default: {
-                return TransferResults.Unknown;
+                throw new UnknownException();
             }
         }
     }
