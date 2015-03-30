@@ -17,8 +17,9 @@
 
     <string name="overview">Overview</string>
     <string name="transactions">Transactions</string>
+    <string name="sendCurrency">Send Currency</string>
 
-    <string name="balance">%1$s KST</string>
+    <string name="balance">%1$s %2$s</string>
     <string name="balance_hint">Balance</string>
     <string name="addressHint">Your account</string>
     <string name="viewTransactions">View Transactions</string>
@@ -27,8 +28,8 @@
     <string name="sent">Sent</string>
     <string name="mined">Mined</string>
 
-    <string name="transactionTo">%1$s KST to %2$s</string>
-    <string name="transactionFrom">%1$s KST from %2$s</string>
+    <string name="transactionTo">%1$s %3$s to %2$s</string>
+    <string name="transactionFrom">%1$s %3$s from %2$s</string>
 
     <string name="kristImage">kristImage</string>
 
@@ -37,7 +38,7 @@
     <string name="load_more">Load more</string>
     <string name="loading">Loading...</string>
     <string name="try_again_later">Try again later!</string>
-    <string name="loading_error_text">It seems there was a problem loading your wallet. Perhaps your internet connection is poor or disconnected, or the Krist servers are down.</string>
+    <string name="loading_error_text">It seems there was a problem loading your wallet. Perhaps your internet connection is poor or disconnected, or the node is down.</string>
     <string name="masterPasswordHint">Enter your master password to access your wallet book</string>
     <string name="masterPasswordCreate">Create a master password to encrypt your wallet book</string>
     <string name="enter">Enter</string>
@@ -67,5 +68,10 @@
     <string name="accountTypeLogin">Login</string>
     <string name="accountTypeQR">QR</string>
     <string name="accountTypeNFC">NFC</string>
+
     <string name="comingSoon">Coming Soon</string>
+
+    <string name="send">Send</string>
+    <string name="amount">Amount</string>
+    <string name="recipient">Recipient</string>
 </resources>

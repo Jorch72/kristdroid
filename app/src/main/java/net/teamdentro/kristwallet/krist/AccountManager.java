@@ -203,7 +203,9 @@ public class AccountManager {
                         obj.getString("hosted"),
                         obj.getString("owner"),
                         new URL(obj.getString("url")),
-                        obj.getString("unique"));
+                        obj.getString("unique"),
+                        obj.getString("currency"),
+                        obj.getString("shorthandcurrency"));
 
                 nodes.put(obj.getString("unique"), newNode);
             }

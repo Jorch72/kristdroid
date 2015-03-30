@@ -63,15 +63,15 @@ public class TransactionsAdapter extends RecyclerView.Adapter<TransactionsAdapte
         if (transaction.getAddr().equalsIgnoreCase("N/A(Mined)")) {
             holder.image.setImageResource(R.mipmap.krist_mined);
             holder.title.setText(context.getString(R.string.mined));
-            holder.amount.setText(context.getString(R.string.balance, String.valueOf(transaction.getAmount())));
+            holder.amount.setText(context.getString(R.string.balance, String.valueOf(transaction.getAmount()), account.getNode().shorthandCurrency));
         } else if (transaction.getFromAddr().equals(account.getAddress())) {
             holder.image.setImageResource(R.mipmap.krist_red);
             holder.title.setText(context.getString(R.string.sent));
-            holder.amount.setText(context.getString(R.string.transactionTo, String.valueOf(Math.abs(transaction.getAmount())), transaction.getToAddr()));
+            holder.amount.setText(context.getString(R.string.transactionTo, String.valueOf(Math.abs(transaction.getAmount())), transaction.getToAddr(), account.getNode().shorthandCurrency));
         } else if (transaction.getToAddr().equals(account.getAddress())) {
             holder.image.setImageResource(R.mipmap.krist_green);
             holder.title.setText(context.getString(R.string.received));
-            holder.amount.setText(context.getString(R.string.transactionFrom, String.valueOf(transaction.getAmount()), transaction.getFromAddr()));
+            holder.amount.setText(context.getString(R.string.transactionFrom, String.valueOf(transaction.getAmount()), transaction.getFromAddr(), account.getNode().shorthandCurrency));
         }
 
         holder.date.setText(context.getString(R.string.placeholder, new SimpleDateFormat("dd MMM HH:mm").format(transaction.getTime())));

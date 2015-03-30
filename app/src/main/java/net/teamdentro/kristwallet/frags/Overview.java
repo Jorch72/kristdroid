@@ -77,7 +77,7 @@ public class Overview extends Fragment {
         address.setText(getString(R.string.placeholder, account.getAddress()));
 
         TextView balance = (TextView) view.findViewById(R.id.balance);
-        balance.setText(getString(R.string.balance, account.getBalance()));
+        balance.setText(getString(R.string.balance, account.getBalance(), account.getNode().shorthandCurrency));
 
         Transaction[] transactions = account.getTransactions();
         transactions = ArrayUtils.subarray(transactions, 0, 15);

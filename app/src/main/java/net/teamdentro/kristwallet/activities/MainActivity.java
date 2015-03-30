@@ -21,10 +21,13 @@ import android.widget.ListView;
 
 import net.teamdentro.kristwallet.R;
 import net.teamdentro.kristwallet.frags.Overview;
+import net.teamdentro.kristwallet.frags.SendCurrency;
 import net.teamdentro.kristwallet.frags.Transactions;
 import net.teamdentro.kristwallet.krist.Account;
 import net.teamdentro.kristwallet.krist.AccountManager;
 import net.teamdentro.kristwallet.krist.CurrentAccount;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.TreeMap;
 
@@ -39,8 +42,9 @@ public class MainActivity extends ActionBarActivity {
     private void prepareFragments() {
         fragments = new TreeMap<>();
 
-        fragments.put(getString(R.string.overview), Overview.class.getName());
-        fragments.put(getString(R.string.transactions), Transactions.class.getName());
+        fragments.put(Overview.class.getName(), getString(R.string.overview));
+        fragments.put(Transactions.class.getName(), getString(R.string.transactions));
+        fragments.put(SendCurrency.class.getName(), getString(R.string.sendCurrency));
     }
 
     @Override
@@ -71,7 +75,7 @@ public class MainActivity extends ActionBarActivity {
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.setDrawerListener(drawerToggle);
 
-        ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.drawer_list_item, fragments.keySet().toArray(new String[]{}));
+        ArrayAdapter adapter = new ArrayAdapter<>(getApplicationContext(), R.layout.drawer_list_item, fragments.values().toArray(new String[]{}));
 
         final ListView drawerList = (ListView) findViewById(R.id.kristDrawerList);
         drawerList.setAdapter(adapter);
@@ -82,22 +86,22 @@ public class MainActivity extends ActionBarActivity {
                 transaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                 transaction.replace(R.id.kristDrawerFragmentContainer,
                         Fragment.instantiate(MainActivity.this,
-                                fragments.values().toArray()[position].toString()), fragments.values().toArray()[position].toString());
+                                fragments.keySet().toArray()[position].toString()), fragments.keySet().toArray()[position].toString());
                 transaction.commit();
 
                 drawerList.setItemChecked(position, true);
-                setTitle(fragments.keySet().toArray()[position].toString());
+                setTitle(fragments.values().toArray()[position].toString());
 
                 drawerLayout.closeDrawer(drawerList);
             }
         });
         drawerList.setItemChecked(0, true);
-        setTitle(fragments.keySet().toArray()[0].toString());
+        setTitle(fragments.values().toArray()[0].toString());
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.kristDrawerFragmentContainer,
                 Fragment.instantiate(MainActivity.this,
-                        fragments.values().toArray()[0].toString()), fragments.values().toArray()[0].toString());
+                        fragments.keySet().toArray()[0].toString()), fragments.keySet().toArray()[0].toString());
         transaction.commit();
     }
 
