@@ -102,6 +102,7 @@ public class AccountManager {
         } catch (SQLiteException e) {
             throw e;
         }
+
         database.execSQL("CREATE TABLE IF NOT EXISTS " + tableName + "(_id INTEGER PRIMARY KEY," +
                 "`label` VARCHAR(42) NOT NULL," +
                 "`password` VARCHAR(255) NOT NULL," +
